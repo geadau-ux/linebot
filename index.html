@@ -271,6 +271,15 @@
         .dark .border-violet-200 { border-color: color-mix(in srgb, #8b5cf6 40%, #1e293b) !important; }
         .dark .text-violet-900, .dark .text-violet-800 { color: color-mix(in srgb, #8b5cf6 45%, #ffffff) !important; }
         .dark .text-violet-700 { color: color-mix(in srgb, #8b5cf6 55%, #ffffff) !important; }
+        /* 版本 B 屬性標記（依色相）*/
+        .hlv { background: hsl(var(--h) 85% 92%); color: hsl(var(--h) 60% 34%); padding: 1px 5px; border-radius: 4px; font-weight: 500; transition: box-shadow .2s; }
+        .hlv.pulse { box-shadow: 0 0 0 2px hsl(var(--h) 70% 55%); }
+        .attr-card { border-left: 4px solid hsl(var(--h) 70% 62%) !important; cursor: pointer; }
+        .attr-card:hover { border-color: hsl(var(--h) 70% 62%) !important; }
+        .dark .hlv { background: hsl(var(--h) 35% 24%); color: hsl(var(--h) 60% 80%); }
+        .dark .attr-card { background-color: #1e293b !important; }
+        .prompt-ver-btn[aria-pressed="true"] { background:#ffffff; color:#4f46e5; box-shadow:0 1px 2px rgb(0 0 0 / .12); }
+        .dark .prompt-ver-btn[aria-pressed="true"] { background:#334155 !important; color:#c7d2fe !important; }
     </style>
 </head>
 <body class="text-slate-800 antialiased min-h-screen flex flex-col">
@@ -1222,7 +1231,7 @@
         <section id="tab-prompt" class="tab-content">
             <div class="mb-8">
                 <h2 class="text-2xl font-bold text-slate-900 mb-2">推播程式碼｜Code.gs 示例、懶人包與 AI 咒語</h2>
-                <p class="text-slate-600">三種取得程式的方式，擇一即可：方法一：直接複製下方的 <strong>Code.gs 示例</strong>（最快，有基本版與 AI 撰稿版）；方法二：用<strong>懶人包</strong>複製整份試算表；方法三：把 <strong>AI 咒語</strong>交給 AI，依需求改寫後重新產生。</p>
+                <p class="text-slate-600">三種取得程式的方式，擇一即可：方法一：直接複製下方的 <strong>Code.gs 示例</strong>（最快，有基本版與 AI 撰稿版）；方法二：用<strong>懶人包</strong>複製整份試算表；方法三：把 <strong>AI 咒語</strong>（同樣有版本 A、B）交給 AI，依需求改寫後重新產生。</p>
             </div>
 
             <!-- 選擇版本 -->
@@ -2741,12 +2750,21 @@ function replyToLine(replyToken, text) {
                 </div>
             </div>
 
-            <div class="grid grid-cols-1 lg:grid-cols-3 gap-8 mb-12">
+            <!-- AI 咒語：版本切換 -->
+            <div class="flex flex-wrap items-center gap-3 mb-4">
+                <h3 class="font-bold text-lg text-slate-800">方法三：AI 咒語</h3>
+                <div class="inline-flex bg-slate-100 border border-slate-200 rounded-full p-1" role="group" aria-label="選擇咒語版本">
+                    <button type="button" class="prompt-ver-btn px-3 py-1 rounded-full text-sm font-bold text-slate-600" data-ver="A" aria-pressed="true" onclick="showPromptVer('A')">版本 A｜基本版</button>
+                    <button type="button" class="prompt-ver-btn px-3 py-1 rounded-full text-sm font-bold text-slate-600" data-ver="B" aria-pressed="false" onclick="showPromptVer('B')">版本 B｜AI 撰稿版</button>
+                </div>
+                <p class="text-xs text-slate-500 w-full">想依自己的需求修改功能時，把咒語中有顏色的字換成您要的內容，再交給 AI 重新產生程式碼。</p>
+            </div>
+            <div data-prompt-ver="A" class="grid grid-cols-1 lg:grid-cols-3 gap-8 mb-12">
                 <div data-block class="lg:col-span-2 bg-white rounded-2xl p-6 shadow-sm border border-slate-200">
                     <div class="flex items-center justify-between mb-4 pb-4 border-b border-slate-100">
                         <h3 class="font-bold text-lg flex items-center gap-2">
                             <svg class="w-5 h-5 text-indigo-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 9l3 3-3 3m5 0h3M5 20h14a2 2 0 002-2V6a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
-                            AI 咒語 (Prompt)<span class="text-sm font-normal text-slate-500">｜產生推播系統程式碼</span>
+                            AI 咒語 (Prompt)<span class="text-sm font-normal text-slate-500">｜版本 A：產生基本版程式碼</span>
                         </h3>
                         <div class="flex items-center gap-2"><button onclick="copyText('prompt-text', '咒語')" class="text-sm text-indigo-600 hover:text-indigo-800 font-medium flex items-center gap-1 transition-colors">
                             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"></path></svg>
@@ -2813,6 +2831,170 @@ function replyToLine(replyToken, text) {
                         <div class="font-bold text-orange-700 mb-1 text-sm"><span class="hl-orange">LINE 顯示排版標題</span></div>
                         <p class="text-xs text-slate-600">最終推播到使用者手機的視覺標題與 Emoji。可依照您的企業識別 (CI) 自行替換圖示與文字。</p>
                     </div>
+                </div>
+            </div>
+            <div data-prompt-ver="B" class="hidden grid grid-cols-1 lg:grid-cols-3 gap-8 mb-12">
+                <div data-block class="lg:col-span-2 bg-white rounded-2xl p-6 shadow-sm border border-violet-200">
+                    <div class="flex flex-wrap items-center justify-between gap-2 mb-4 pb-4 border-b border-slate-100">
+                        <h3 class="font-bold text-lg flex items-center gap-2">
+                            <svg class="w-5 h-5 text-indigo-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 9l3 3-3 3m5 0h3M5 20h14a2 2 0 002-2V6a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
+                            AI 咒語 (Prompt)<span class="text-sm font-normal text-slate-500">｜版本 B：產生 AI 撰稿版程式碼（含 AI 生成內容）</span>
+                        </h3>
+                        <div class="flex items-center gap-2"><button onclick="copyText('prompt-text-ai', '咒語')" class="text-sm text-indigo-600 hover:text-indigo-800 font-medium flex items-center gap-1 transition-colors">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"></path></svg>
+                            複製咒語
+                        </button><button type="button" onclick="toggleBlock(this)" aria-expanded="true" class="block-toggle bg-white hover:bg-slate-50 text-slate-600 border border-slate-300 text-sm font-medium py-1.5 px-3 rounded-lg flex items-center gap-1 transition-colors"><span class="lbl">收合</span><svg class="w-4 h-4 block-chev" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg></button></div>
+                    </div>
+                    <div class="block-hint text-sm text-slate-500">已收合，按「展開」查看咒語內容。</div>
+                    <div id="prompt-text-ai" class="block-body text-slate-700 leading-relaxed whitespace-pre-wrap font-mono text-sm">請幫我用 Google Apps Script (GAS) 寫一個綁定在 Google 試算表上的 LINE Bot Webhook 程式碼 (Code.gs)，作為「<span class="hlv" data-a="project" style="--h:335">優履團隊推播系統</span>」，並結合 Gemini API 自動生成推播內容。請務必遵守以下所有架構與邏輯規範：
+
+<span class="font-bold text-slate-800"># 1. 資安與環境變數設定</span>
+- 絕對不要在程式碼中寫死任何 API 金鑰。
+- 請使用 `PropertiesService` 來讀取 `LINE_TOKEN` 與 `SHEET_ID`。
+- Gemini API 金鑰存在指令碼屬性 `GEMINI_API_KEY`，由試算表選單跳出輸入框設定，不寫進試算表；儲存後顯示金鑰尾碼 4 碼供核對。
+
+<span class="font-bold text-slate-800"># 2. 自動初始化試算表功能 (autoSetupSheets)</span>
+- 寫一個 `autoSetupSheets` 函式（有 SHEET_ID 時用 openById，否則用目前開啟的試算表），自動檢查並建立以下工作表（若不存在則建立）：
+  - 「<span class="hlv" data-a="auth" style="--h:212">權限管理</span>」工作表（欄位：LINE_ID, 姓名, 綁定身分, 註冊時間, 核准狀態），核准狀態欄加上下拉選單（待核准／已核准／停用）。
+  - 「<span class="hlv" data-a="sheets" style="--h:140">總匯報</span>」、「<span class="hlv" data-a="sheets" style="--h:140">導師分頁</span>」、「<span class="hlv" data-a="sheets" style="--h:140">學生分頁</span>」、「<span class="hlv" data-a="sheets" style="--h:140">行政分頁</span>」、「<span class="hlv" data-a="sheets" style="--h:140">家長分頁</span>」、「<span class="hlv" data-a="sheets" style="--h:140">校長分頁</span>」。
+  - 各資料工作表的第一列為動態標題（預設寫入：日期, 匯報資料一, 匯報資料二, 匯報資料三）。第二列寫入今天的假資料作為測試。
+  - 「<span class="hlv" data-a="settings" style="--h:25">⚙️系統設定</span>」工作表（欄位：設定項目, 設定值, 說明），已存在時只補上缺少的項目：
+    - Gemini模型：<span class="hlv" data-a="model" style="--h:192">gemini-flash-lite-latest</span>
+    - 備用模型：<span class="hlv" data-a="model" style="--h:192">gemini-flash-latest</span>（填「無」表示不使用）
+    - 學校名稱：（空白，由使用者填寫）
+    - 每格字數上限：<span class="hlv" data-a="limit" style="--h:0">40</span>
+    - 啟用即時搜尋：否
+    - 搜尋額度不足時改用無搜尋：是
+
+<span class="font-bold text-slate-800"># 3. 身分註冊與權限鎖定邏輯 (doPost 進入點)</span>
+- 處理 `follow`（加入好友）事件：主動發送問候語，請使用者輸入「身分」加「名字」（例如：導師 王大明）進行註冊。
+- 處理文字訊息：
+  - 合法身分包含："<span class="hlv" data-a="roles" style="--h:272">導師</span>", "<span class="hlv" data-a="roles" style="--h:272">學生</span>", "<span class="hlv" data-a="roles" style="--h:272">行政</span>", "<span class="hlv" data-a="roles" style="--h:272">家長</span>", "<span class="hlv" data-a="roles" style="--h:272">校長</span>"。
+  - 如果使用者的 userId 不在名冊中：
+    - 智慧辨識其輸入的文字，切分出「身分」與「姓名」。
+    - 若身分合法，寫入名冊，核准狀態預設為「待核准」，並回覆「申請已送出，待管理員核准」。
+  - 如果使用者已註冊但狀態不是「已核准」：
+    - 待核准回覆「審核中」，停用回覆「帳號已停用」，不提供任何報表。
+  - 如果使用者已核准：
+    - 鎖定權限，如果他企圖輸入其他身分字眼，回覆「越權警告」。
+
+<span class="font-bold text-slate-800"># 4. 雙軌報表與日期精準搜尋邏輯（當使用者輸入「<span class="hlv" data-a="cmd" style="--h:176">今日</span>」）</span>
+- 當已核准的使用者輸入「<span class="hlv" data-a="cmd" style="--h:176">今日</span>」時，系統必須去試算表撈取資料。
+- 搜尋規則：
+  - 取得今天的日期（格式：yyyy/MM/dd，時區 Asia/Taipei）。
+  - 從試算表最下方往上搜尋，精準比對 A 欄，只抓取「日期等於今天」的那一列資料。
+  - A 欄可能是日期格式或文字，一律先轉成 yyyy/MM/dd 再比對（避免顯示成 2026/1/5 而比對失敗）。
+- 動態欄位讀取：
+  - 使用 `getLastColumn()` 動態判斷該工作表有幾欄並組合內容，忽略空白；每格以「📁 《欄位名稱》」為小標。
+- 雙軌合併顯示：
+  - 同時抓取【總匯報】以及【該使用者的綁定身分工作表】今日資料。
+  - 訊息排版包含「<span class="hlv" data-a="layout" style="--h:28">🗓️ 優履團隊每日訊息</span>」、「<span class="hlv" data-a="layout" style="--h:28">📢 全校總匯報</span>」、「<span class="hlv" data-a="layout" style="--h:28">👤 [身分]專屬通知</span>」等區塊劃分。
+- LINE 單則文字上限 5000 字、一次回覆最多 5 則：內容過長時自動在空行處分段送出。
+
+<span class="font-bold text-slate-800"># 5. 試算表自訂選單 (onOpen)</span>
+- 建立自訂選單「<span class="hlv" data-a="menu" style="--h:236">🤖 AI 新增公告</span>」，項目依使用流程排列，每項以括號註明使用時機：
+  - 📋 建立／檢查分頁（首次使用、分頁或設定缺漏時）
+  - 🔑 設定 Gemini API 金鑰（首次使用、更換金鑰時）
+  - 🩺 測試 Gemini 連線（設定完金鑰後、生成失敗時）
+  - ──（分隔線）──
+  - ⚡ 一鍵生成今天全部分頁（每天推播前）
+  - ✨ 自選分頁與日期生成（只更新部分分頁、預排未來日期時）
+  - ──（分隔線）──
+  - ❓ 使用說明（不確定怎麼操作時）
+- 保留舊版函式名稱並轉呼叫新功能，避免試算表未重新整理時出現「找不到指令碼函式」。
+
+<span class="font-bold text-slate-800"># 6. ✨ AI 生成內容規則</span>
+- 欄位名稱即主題：各資料分頁第一列除「日期」外的欄位名稱就是主題（例如：流感疫苗）；若仍是「匯報資料…」預設名稱，由 AI 自選近期重要議題，同分頁不重複。
+- 分頁即對象，依對象調整語氣：
+  - 全校：<span class="hlv" data-a="tone" style="--h:95">正式而親切</span>；導師：<span class="hlv" data-a="tone" style="--h:95">清楚條列需執行事項與期限</span>；學生：<span class="hlv" data-a="tone" style="--h:95">正向鼓勵、句子簡短</span>；
+  - 行政：<span class="hlv" data-a="tone" style="--h:95">精確、標明承辦單位</span>；家長：<span class="hlv" data-a="tone" style="--h:95">親切溫和、避免行政術語</span>；校長：<span class="hlv" data-a="tone" style="--h:95">精簡扼要、利於決策</span>。
+- 每格內容不超過 <span class="hlv" data-a="limit" style="--h:0">40</span> 字（含標點），用一到兩句話同時涵蓋「<span class="hlv" data-a="facets" style="--h:48">政策宣導</span>、<span class="hlv" data-a="facets" style="--h:48">校務內容</span>、<span class="hlv" data-a="facets" style="--h:48">親師溝通</span>」三個面向；不加【】標籤、不換行、不用 Markdown；不確定的日期、地點、電話不可自行編造。
+- AI 若超過字數，優先在句號處截斷，其次在逗號處改為句號，不得已才以「…」結尾。
+- 所有勾選的分頁合併成一次 Gemini 呼叫，以「=== S分頁-欄 ===」標記回傳，再拆回各儲存格。
+- 找不到該日期的列就在最下方新增一列，日期以純文字 yyyy/MM/dd 寫入。
+- 每個 AI 填寫的儲存格加上備註：生成時間與使用的模型。
+- ⚡ 一鍵生成今天：填寫全部分頁今天那一列；若已有內容，先詢問「是＝全部覆寫／否＝只填空白／取消」。
+- ✨ 自選分頁與日期生成：開啟視窗，包含：
+  1. 分頁勾選（含全選，預設全選）。
+  2. 日期起訖，可勾選跳過週六、日；快捷按鈕：今天、明天、本週一～五、下週一～五；一次最多 <span class="hlv" data-a="caps" style="--h:222">14 天</span>，逐天生成並把前幾天已寫內容提供給 AI 以避免重複；遇到額度不足自動停止後續日期。
+  3. 內容方向（選填），附快捷範例：<span class="hlv" data-a="dirs" style="--h:310">防疫與健康</span>、<span class="hlv" data-a="dirs" style="--h:310">交通安全</span>、<span class="hlv" data-a="dirs" style="--h:310">品德與反霸凌</span>、<span class="hlv" data-a="dirs" style="--h:310">考試週身心調適</span>、<span class="hlv" data-a="dirs" style="--h:310">節能減碳</span>、<span class="hlv" data-a="dirs" style="--h:310">數位素養與網路安全</span>。
+  4. 參考資料（選填）：可貼上文章，或只貼網址由程式自動讀取網頁文字；最多 <span class="hlv" data-a="caps" style="--h:222">8000 字</span>，AI 須以此為主要依據，不可補造資料中沒有的數字與日期。
+  5. 已有內容的格子：只填空白／全部重新生成（覆寫）。
+  6. 進階設定：本次每格字數（10～300）、語氣（溫馨親切、正式嚴謹、活潑有朝氣、簡潔明快、鼓勵正向）。
+  - 記住上次的設定（方向、語氣、字數、跳過週末、模式），下次自動帶入；參考資料不記。
+
+<span class="font-bold text-slate-800"># 7. Gemini 呼叫穩定性與診斷</span>
+- 呼叫 v1beta `generateContent`，金鑰放在 `x-goog-api-key` 標頭。
+- 嘗試順序：主模型 → 備用模型 → <span class="hlv" data-a="model" style="--h:192">gemini-flash-latest</span>／<span class="hlv" data-a="model" style="--h:192">gemini-flash-lite-latest</span> 保險；啟用即時搜尋時加上 `google_search` 工具，搜尋額度不足時改為不搜尋再試。
+- 錯誤處理：
+  - 429 每分鐘額度：依回傳的 RetryInfo 等待後重試（最多 2 次、每次最長 60 秒）。
+  - 429 每日額度或免費上限為 0：不重試，直接換下一個方案。
+  - 500／503 伺服器忙碌：等待後重試。
+  - 404 模型已停用：記錄後換下一個模型。
+  - 全部失敗時以中文說明原因，並提示使用「🩺 測試 Gemini 連線」。
+- 自動把「<span class="hlv" data-a="settings" style="--h:25">⚙️系統設定</span>」中已停用的舊模型名稱（gemini-1.x／2.0／2.5 開頭）改成 -latest 名稱。
+- 🩺 測試 Gemini 連線：顯示目前金鑰前後碼、列出模型確認金鑰有效，再對主模型與備用模型各測「不搜尋／搜尋」，並把 429 翻成「今日額度用完／每分鐘額度用完／免費方案不開放」。</div>
+                </div>
+
+                <div class="lg:col-span-1 space-y-3 lg:sticky lg:top-48 lg:self-start lg:max-h-[calc(100vh-13rem)] lg:overflow-y-auto pr-1">
+                    <h3 class="font-bold text-lg text-slate-800 px-1">屬性解析 (可自由替換)</h3>
+                    <p class="text-xs text-slate-500 px-1 -mt-1">點卡片可在咒語中標出對應位置。</p>
+                    <button type="button" onclick="focusAttr('project')" class="attr-card w-full text-left bg-white rounded-xl p-4 shadow-sm border border-slate-200" style="--h:335">
+                        <div class="mb-1 text-sm"><span class="hlv font-bold" style="--h:335">系統專案名稱</span><span class="text-[11px] text-slate-400 ml-1.5 font-mono">1 處</span></div>
+                        <p class="text-xs text-slate-600">決定 AI 生成程式碼時的註解與訊息名稱。可改為學校或團隊的真實名稱，如「中山國中推播系統」。</p>
+                    </button>
+                    <button type="button" onclick="focusAttr('auth')" class="attr-card w-full text-left bg-white rounded-xl p-4 shadow-sm border border-slate-200" style="--h:212">
+                        <div class="mb-1 text-sm"><span class="hlv font-bold" style="--h:212">後台名冊工作表名稱</span><span class="text-[11px] text-slate-400 ml-1.5 font-mono">1 處</span></div>
+                        <p class="text-xs text-slate-600">記錄使用者 LINE ID 與身分的工作表。可替換為「會員資料庫」「教職員名冊」等。</p>
+                    </button>
+                    <button type="button" onclick="focusAttr('sheets')" class="attr-card w-full text-left bg-white rounded-xl p-4 shadow-sm border border-slate-200" style="--h:140">
+                        <div class="mb-1 text-sm"><span class="hlv font-bold" style="--h:140">資料工作表名稱</span><span class="text-[11px] text-slate-400 ml-1.5 font-mono">6 處</span></div>
+                        <p class="text-xs text-slate-600">必須與試算表下方分頁一模一樣。可依需求增減，如改為「教務處」「學務處」。<strong>注意：總匯報為全體廣播的工作表。</strong></p>
+                    </button>
+                    <button type="button" onclick="focusAttr('roles')" class="attr-card w-full text-left bg-white rounded-xl p-4 shadow-sm border border-slate-200" style="--h:272">
+                        <div class="mb-1 text-sm"><span class="hlv font-bold" style="--h:272">身分觸發關鍵字</span><span class="text-[11px] text-slate-400 ml-1.5 font-mono">5 處</span></div>
+                        <p class="text-xs text-slate-600">使用者初次綁定時輸入的身分字眼。新註冊者一律為「待核准」，管理員改為「已核准」後才看得到報表，避免冒充校長或行政。</p>
+                    </button>
+                    <button type="button" onclick="focusAttr('cmd')" class="attr-card w-full text-left bg-white rounded-xl p-4 shadow-sm border border-slate-200" style="--h:176">
+                        <div class="mb-1 text-sm"><span class="hlv font-bold" style="--h:176">查詢指令</span><span class="text-[11px] text-slate-400 ml-1.5 font-mono">2 處</span></div>
+                        <p class="text-xs text-slate-600">使用者在 LINE 輸入哪個字會收到報表。可改成「今天」「公告」「查詢」等。</p>
+                    </button>
+                    <button type="button" onclick="focusAttr('layout')" class="attr-card w-full text-left bg-white rounded-xl p-4 shadow-sm border border-slate-200" style="--h:28">
+                        <div class="mb-1 text-sm"><span class="hlv font-bold" style="--h:28">LINE 顯示排版標題</span><span class="text-[11px] text-slate-400 ml-1.5 font-mono">3 處</span></div>
+                        <p class="text-xs text-slate-600">推播到手機上的區塊標題與 Emoji。可依學校識別自行替換圖示與文字。</p>
+                    </button>
+                    <button type="button" onclick="focusAttr('menu')" class="attr-card w-full text-left bg-white rounded-xl p-4 shadow-sm border border-slate-200" style="--h:236">
+                        <div class="mb-1 text-sm"><span class="hlv font-bold" style="--h:236">試算表選單名稱</span><span class="text-[11px] text-slate-400 ml-1.5 font-mono">1 處</span></div>
+                        <p class="text-xs text-slate-600">Google 試算表上方自訂選單的名稱。選單項目的順序與括號內的使用時機也可一併調整。</p>
+                    </button>
+                    <button type="button" onclick="focusAttr('settings')" class="attr-card w-full text-left bg-white rounded-xl p-4 shadow-sm border border-slate-200" style="--h:25">
+                        <div class="mb-1 text-sm"><span class="hlv font-bold" style="--h:25">設定工作表名稱</span><span class="text-[11px] text-slate-400 ml-1.5 font-mono">2 處</span></div>
+                        <p class="text-xs text-slate-600">存放模型、學校名稱、字數上限等設定的工作表。改名時程式內讀取的名稱要一致。</p>
+                    </button>
+                    <button type="button" onclick="focusAttr('model')" class="attr-card w-full text-left bg-white rounded-xl p-4 shadow-sm border border-slate-200" style="--h:192">
+                        <div class="mb-1 text-sm"><span class="hlv font-bold" style="--h:192">AI 模型</span><span class="text-[11px] text-slate-400 ml-1.5 font-mono">4 處</span></div>
+                        <p class="text-xs text-slate-600">建議使用 -latest 結尾的名稱，會自動指向最新版，不會因舊模型停用而失敗。付費金鑰可改用效果較好的模型。</p>
+                    </button>
+                    <button type="button" onclick="focusAttr('limit')" class="attr-card w-full text-left bg-white rounded-xl p-4 shadow-sm border border-slate-200" style="--h:0">
+                        <div class="mb-1 text-sm"><span class="hlv font-bold" style="--h:0">每格字數上限</span><span class="text-[11px] text-slate-400 ml-1.5 font-mono">2 處</span></div>
+                        <p class="text-xs text-slate-600">每則推播的長度。40 字適合手機一眼讀完；需要較完整說明時可改為 80～150 字。</p>
+                    </button>
+                    <button type="button" onclick="focusAttr('facets')" class="attr-card w-full text-left bg-white rounded-xl p-4 shadow-sm border border-slate-200" style="--h:48">
+                        <div class="mb-1 text-sm"><span class="hlv font-bold" style="--h:48">內容三面向</span><span class="text-[11px] text-slate-400 ml-1.5 font-mono">3 處</span></div>
+                        <p class="text-xs text-slate-600">每則內容必須涵蓋的面向。可替換為「安全提醒、活動資訊、家長配合」等學校自己的重點。</p>
+                    </button>
+                    <button type="button" onclick="focusAttr('tone')" class="attr-card w-full text-left bg-white rounded-xl p-4 shadow-sm border border-slate-200" style="--h:95">
+                        <div class="mb-1 text-sm"><span class="hlv font-bold" style="--h:95">對象語氣對照</span><span class="text-[11px] text-slate-400 ml-1.5 font-mono">6 處</span></div>
+                        <p class="text-xs text-slate-600">各分頁對象的寫作語氣。可依學校習慣調整，例如學生分頁改成「活潑口語、可用 Emoji」。</p>
+                    </button>
+                    <button type="button" onclick="focusAttr('dirs')" class="attr-card w-full text-left bg-white rounded-xl p-4 shadow-sm border border-slate-200" style="--h:310">
+                        <div class="mb-1 text-sm"><span class="hlv font-bold" style="--h:310">內容方向快捷範例</span><span class="text-[11px] text-slate-400 ml-1.5 font-mono">6 處</span></div>
+                        <p class="text-xs text-slate-600">視窗中可一鍵帶入的方向按鈕。建議換成本學期的重點議題或行事曆主題。</p>
+                    </button>
+                    <button type="button" onclick="focusAttr('caps')" class="attr-card w-full text-left bg-white rounded-xl p-4 shadow-sm border border-slate-200" style="--h:222">
+                        <div class="mb-1 text-sm"><span class="hlv font-bold" style="--h:222">生成上限</span><span class="text-[11px] text-slate-400 ml-1.5 font-mono">2 處</span></div>
+                        <p class="text-xs text-slate-600">一次最多生成的天數與參考資料字數。免費金鑰額度較少，天數不宜調太高。</p>
+                    </button>
                 </div>
             </div>
 
@@ -3663,6 +3845,21 @@ function logErrorToSheet(errorMsg) {
                 if (!saved) setTheme(e.matches ? 'dark' : 'light', false);
             });
         } catch (e) {}
+
+        // ===== AI 咒語：版本切換與屬性定位 =====
+        function showPromptVer(v) {
+            document.querySelectorAll('[data-prompt-ver]').forEach(g => g.classList.toggle('hidden', g.dataset.promptVer !== v));
+            document.querySelectorAll('.prompt-ver-btn').forEach(b => b.setAttribute('aria-pressed', String(b.dataset.ver === v)));
+        }
+        function focusAttr(id) {
+            const box = document.getElementById('prompt-text-ai').closest('[data-block]');
+            if (box.classList.contains('block-collapsed')) toggleBlock(box.querySelector('.block-toggle'));
+            const marks = document.querySelectorAll('#prompt-text-ai .hlv[data-a="' + id + '"]');
+            if (!marks.length) return;
+            marks[0].scrollIntoView({ behavior: 'smooth', block: 'center' });
+            marks.forEach(m => m.classList.add('pulse'));
+            setTimeout(() => marks.forEach(m => m.classList.remove('pulse')), 1800);
+        }
 
         // ===== 程式碼／咒語區塊：收合切換 =====
         function toggleBlock(btn) {
