@@ -531,7 +531,14 @@
                                     </ul>
                                     <p class="text-xs text-slate-500 mt-2">若視窗先要求填寫開發者姓名與 Email，代表還沒完成「00 新手開通準備」的機房設定，照填後繼續即可。</p>
                                 </div></li>
-                                <li class="flex gap-3"><span class="flex-shrink-0 w-6 h-6 rounded-full bg-green-600 text-white text-xs font-bold flex items-center justify-center mt-0.5">5</span><span>畫面出現 <strong>Channel ID</strong> 等資訊，就代表啟用成功。此時到 <a href="https://developers.line.biz/console/" target="_blank" class="text-blue-600 hover:underline">LINE Developers</a> 機房，也會在這個服務提供者底下看到您的機器人（步驟 04 會用到）。</span></li>
+                                <li class="flex gap-3"><span class="flex-shrink-0 w-6 h-6 rounded-full bg-green-600 text-white text-xs font-bold flex items-center justify-center mt-0.5">5</span><div class="flex-1 space-y-2">
+                                    <p>畫面顯示<strong>「狀態：使用中」</strong>，並出現 <strong>Channel ID</strong> 與 <strong>Channel secret</strong>，就代表啟用成功。</p>
+                                    <ul class="text-sm space-y-1.5 bg-slate-50 border border-slate-200 rounded-xl p-3">
+                                        <li class="flex gap-2"><span class="text-slate-400">▸</span><span>這一頁<strong>什麼都不用填</strong>。下方的「Webhook網址」欄先留空，等步驟 05 拿到網址後，步驟 06 再處理。</span></li>
+                                        <li class="flex gap-2"><span class="text-slate-400">▸</span><span><strong>Channel secret 是機密</strong>，請勿截圖分享或貼到公開文件。</span></li>
+                                        <li class="flex gap-2"><span class="text-slate-400">▸</span><span>接著點頁面最下方的藍色連結 <a href="https://developers.line.biz/console/" target="_blank" class="text-blue-600 underline underline-offset-2 font-medium">LINE Developers Console</a>，進入機房，繼續<strong>步驟 04</strong>。</span></li>
+                                    </ul>
+                                </div></li>
                             </ol>
                             <div class="flex items-start gap-2 bg-rose-50 p-4 rounded-xl border border-rose-100 shadow-sm">
                                 <svg class="w-6 h-6 text-rose-500 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path></svg>
