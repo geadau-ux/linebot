@@ -103,6 +103,18 @@
             transform: scale(1);
         }
 
+        /* 可收合區塊 */
+        [data-collapsible] .collapse-btn svg { transition: transform 0.25s ease; }
+        [data-collapsible].is-collapsed .collapse-btn svg { transform: rotate(-90deg); }
+        [data-collapsible].is-collapsed > .collapse-body { display: none; }
+        [data-collapsible].is-collapsed [data-collapse-head] { margin-bottom: 0; padding-bottom: 0; border-bottom-width: 0; }
+        [data-collapsible] > .collapse-body { animation: fadeIn 0.25s ease-in-out; }
+        [data-collapse-head] { cursor: pointer; user-select: none; }
+        @media print {
+            [data-collapsible].is-collapsed > .collapse-body { display: block !important; }
+            .collapse-btn, #toggle-all-steps { display: none !important; }
+        }
+
         /* 程式碼區塊樣式 */
         pre {
             tab-size: 4;
@@ -158,7 +170,10 @@
         <!-- ========================================== -->
         <section id="tab-setup" class="tab-content active">
             <div class="mb-6">
-                <h2 class="text-2xl font-bold text-slate-900 mb-2">LINE 自動通知機器人｜六步驟標準架設指南</h2>
+                <div class="flex flex-wrap items-center justify-between gap-3 mb-2">
+                    <h2 class="text-2xl font-bold text-slate-900">LINE 自動通知機器人｜六步驟標準架設指南</h2>
+                    <button type="button" id="toggle-all-steps" onclick="toggleAllSteps()" class="text-sm font-bold text-slate-600 hover:text-slate-900 bg-white border border-slate-300 hover:border-slate-400 px-3.5 py-1.5 rounded-lg shadow-sm transition-colors">全部展開</button>
+                </div>
                 <p class="text-slate-600">先完成「00 新手開通準備」，再依序完成步驟 01–06，即可讓 LINE 與 Google 試算表雙向連線。</p>
             </div>
             
@@ -252,8 +267,8 @@
                 </div>
 
                 <!-- 第零階段：新手開通準備 -->
-                <div id="setup-guide" class="scroll-mt-48 bg-blue-50 border-l-4 border-blue-500 p-5 rounded-r-xl shadow-sm space-y-6">
-                    <h3 class="font-bold text-xl text-blue-900 flex items-center gap-2"><span class="bg-blue-600 text-white text-sm px-2.5 py-1 rounded-lg">00</span> 新手開通準備</h3>
+                <div id="setup-guide" data-collapsible class="scroll-mt-48 bg-blue-50 border-l-4 border-blue-500 p-5 rounded-r-xl shadow-sm space-y-6">
+                    <h3 data-collapse-head class="font-bold text-xl text-blue-900 flex items-center gap-2"><span class="bg-blue-600 text-white text-sm px-2.5 py-1 rounded-lg">00</span> 新手開通準備</h3>
                     <p class="text-slate-700 leading-relaxed font-medium">
                         第一次使用 LINE 後台建立機器人的老師，請放心使用您<strong>個人的 LINE 帳號</strong>登入。<br>
                         <span class="bg-blue-100 text-blue-800 px-2 py-0.5 rounded text-sm font-bold inline-block mt-2">🛡️ 放心提示：這只是讓系統確認您是真人，絕對不會影響您的私人對話，也不會誤傳訊息給您的親友！</span>
@@ -289,8 +304,8 @@
 
             <div class="space-y-8 w-full">
                 <!-- Step 1 -->
-                <div class="bg-white rounded-2xl p-6 shadow-sm border border-slate-200 hover:border-green-300 transition-colors">
-                    <div class="flex items-center gap-4 mb-4 pb-4 border-b border-slate-100">
+                <div data-collapsible class="bg-white rounded-2xl p-6 shadow-sm border border-slate-200 hover:border-green-300 transition-colors">
+                    <div data-collapse-head class="flex items-center gap-4 mb-4 pb-4 border-b border-slate-100">
                         <div class="w-12 h-12 bg-green-600 text-white rounded-xl flex items-center justify-center font-bold text-xl shadow-md">01</div>
                         <h3 class="font-bold text-xl text-slate-800">前台｜建立官方帳號</h3>
                     </div>
@@ -341,8 +356,8 @@
                 </div>
 
                 <!-- Step 2 -->
-                <div class="bg-white rounded-2xl p-6 shadow-sm border border-slate-200 hover:border-green-300 transition-colors">
-                    <div class="flex items-center gap-4 mb-4 pb-4 border-b border-slate-100">
+                <div data-collapsible class="bg-white rounded-2xl p-6 shadow-sm border border-slate-200 hover:border-green-300 transition-colors">
+                    <div data-collapse-head class="flex items-center gap-4 mb-4 pb-4 border-b border-slate-100">
                         <div class="w-12 h-12 bg-green-600 text-white rounded-xl flex items-center justify-center font-bold text-xl shadow-md">02</div>
                         <h3 class="font-bold text-xl text-slate-800">前台｜完善機器人設定</h3>
                     </div>
@@ -399,8 +414,8 @@
                 </div>
 
                 <!-- Step 3 -->
-                <div class="bg-white rounded-2xl p-6 shadow-sm border border-slate-200 hover:border-green-300 transition-colors">
-                    <div class="flex items-center gap-4 mb-4 pb-4 border-b border-slate-100">
+                <div data-collapsible class="bg-white rounded-2xl p-6 shadow-sm border border-slate-200 hover:border-green-300 transition-colors">
+                    <div data-collapse-head class="flex items-center gap-4 mb-4 pb-4 border-b border-slate-100">
                         <div class="w-12 h-12 bg-green-600 text-white rounded-xl flex items-center justify-center font-bold text-xl shadow-md">03</div>
                         <h3 class="font-bold text-xl text-slate-800">前台｜啟用 Messaging API (開通管線)</h3>
                     </div>
@@ -445,8 +460,8 @@
                 </div>
 
                 <!-- Step 4 -->
-                <div class="bg-white rounded-2xl p-6 shadow-sm border border-slate-200 hover:border-blue-300 transition-colors">
-                    <div class="flex items-center gap-4 mb-4 pb-4 border-b border-slate-100">
+                <div data-collapsible class="bg-white rounded-2xl p-6 shadow-sm border border-slate-200 hover:border-blue-300 transition-colors">
+                    <div data-collapse-head class="flex items-center gap-4 mb-4 pb-4 border-b border-slate-100">
                         <div class="w-12 h-12 bg-slate-800 text-white rounded-xl flex items-center justify-center font-bold text-xl shadow-md">04</div>
                         <h3 class="font-bold text-xl text-slate-800">機房｜取得機器人的「靈魂鑰匙 Token」</h3>
                     </div>
@@ -489,9 +504,9 @@
                 </div>
 
                 <!-- Step 5 -->
-                <div class="bg-white rounded-2xl p-6 shadow-sm border-2 border-yellow-300 hover:border-yellow-400 transition-colors relative overflow-hidden">
-                    <div class="absolute top-0 right-0 bg-yellow-400 text-yellow-900 text-xs font-bold px-3 py-1 rounded-bl-lg">最關鍵步驟</div>
-                    <div class="flex items-center gap-4 mb-4 pb-4 border-b border-slate-100">
+                <div data-collapsible class="bg-white rounded-2xl p-6 pt-9 shadow-sm border-2 border-yellow-300 hover:border-yellow-400 transition-colors relative overflow-hidden">
+                    <div class="absolute top-0 left-0 bg-yellow-400 text-yellow-900 text-xs font-bold px-3 py-1 rounded-br-lg">最關鍵步驟</div>
+                    <div data-collapse-head class="flex items-center gap-4 mb-4 pb-4 border-b border-slate-100">
                         <div class="w-12 h-12 bg-yellow-500 text-white rounded-xl flex items-center justify-center font-bold text-xl shadow-md">05</div>
                         <h3 class="font-bold text-xl text-slate-800">Google｜試算表部署 (取得 Webhook 網址)</h3>
                     </div>
@@ -564,8 +579,8 @@
                 </div>
 
                 <!-- Step 6 -->
-                <div class="bg-white rounded-2xl p-6 shadow-sm border border-slate-200 hover:border-blue-300 transition-colors">
-                    <div class="flex items-center gap-4 mb-4 pb-4 border-b border-slate-100">
+                <div data-collapsible class="bg-white rounded-2xl p-6 shadow-sm border border-slate-200 hover:border-blue-300 transition-colors">
+                    <div data-collapse-head class="flex items-center gap-4 mb-4 pb-4 border-b border-slate-100">
                         <div class="w-12 h-12 bg-slate-800 text-white rounded-xl flex items-center justify-center font-bold text-xl shadow-md">06</div>
                         <h3 class="font-bold text-xl text-slate-800">機房｜接通雙向電話線</h3>
                     </div>
@@ -1824,6 +1839,57 @@ function logErrorToSheet(errorMsg) {
         document.addEventListener('DOMContentLoaded', () => {
             const hash = location.hash.replace('#', '');
             if (hash && document.getElementById(hash) && hash.startsWith('tab-')) switchTab(hash);
+        });
+
+        // ===== 可收合區塊（預設收合）=====
+        function setCollapsed(box, collapsed) {
+            box.classList.toggle('is-collapsed', collapsed);
+            const btn = box.querySelector('.collapse-btn');
+            if (btn) {
+                btn.setAttribute('aria-expanded', String(!collapsed));
+                btn.querySelector('.collapse-label').textContent = collapsed ? '展開' : '收合';
+            }
+        }
+        function updateToggleAllLabel() {
+            const boxes = [...document.querySelectorAll('#tab-setup [data-collapsible]')];
+            const anyCollapsed = boxes.some(b => b.classList.contains('is-collapsed'));
+            const btn = document.getElementById('toggle-all-steps');
+            if (btn) btn.textContent = anyCollapsed ? '全部展開' : '全部收合';
+        }
+        function toggleAllSteps() {
+            const boxes = [...document.querySelectorAll('#tab-setup [data-collapsible]')];
+            const expand = boxes.some(b => b.classList.contains('is-collapsed'));
+            boxes.forEach(b => setCollapsed(b, !expand));
+            updateToggleAllLabel();
+        }
+        document.querySelectorAll('[data-collapsible]').forEach(box => {
+            const head = box.querySelector(':scope > [data-collapse-head]');
+            if (!head) return;
+            // 標題之後的內容收進 collapse-body
+            const body = document.createElement('div');
+            body.className = 'collapse-body space-y-6';
+            [...box.children].filter(el => el !== head && !el.classList.contains('absolute')).forEach(el => body.appendChild(el));
+            box.appendChild(body);
+            // 右上角收合按鈕
+            const btn = document.createElement('button');
+            btn.type = 'button';
+            btn.className = 'collapse-btn ml-auto flex-shrink-0 inline-flex items-center gap-1 text-sm font-bold text-slate-600 hover:text-slate-900 bg-white/80 hover:bg-white border border-slate-200 px-3 py-1.5 rounded-lg shadow-sm transition-colors';
+            btn.innerHTML = '<span class="collapse-label">收合</span><svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>';
+            head.appendChild(btn);
+            head.addEventListener('click', (e) => {
+                if (e.target.closest('a')) return;
+                setCollapsed(box, !box.classList.contains('is-collapsed'));
+                updateToggleAllLabel();
+            });
+            setCollapsed(box, true); // 預設收合
+        });
+        updateToggleAllLabel();
+
+        // 「詳細指南請點我」跳到 00 時自動展開
+        const guideBtn = document.querySelector('#why-line button');
+        if (guideBtn) guideBtn.addEventListener('click', () => {
+            const g = document.getElementById('setup-guide');
+            setCollapsed(g, false); updateToggleAllLabel();
         });
 
         // 圖片載入失敗時顯示提示，避免出現破圖
