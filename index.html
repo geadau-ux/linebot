@@ -3,6 +3,17 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script>
+        // 在畫面繪製前套用深色／淡色，避免閃一下
+        (function () {
+            var t = null;
+            try { t = localStorage.getItem('theme'); } catch (e) {}
+            if (t !== 'dark' && t !== 'light') {
+                t = (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) ? 'dark' : 'light';
+            }
+            if (t === 'dark') document.documentElement.classList.add('dark');
+        })();
+    </script>
     <title>LINE 自動通知機器人教學</title>
     <!-- 網頁分頁圖示 (優履團隊 UNI 新 Logo) -->
     <link rel="icon" type="image/png" sizes="64x64" href="data:image/png;base64,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">
@@ -58,6 +69,7 @@
         .hl-orange:hover { background-color: #fed7aa; }
 
         /* 隱藏內容區塊 */
+        .tab-content { scroll-margin-top: 14rem; }
         .tab-content {
             display: none;
             animation: fadeIn 0.3s ease-in-out;
@@ -126,6 +138,139 @@
         pre {
             tab-size: 4;
         }
+
+        /* ===== 深色模式 ===== */
+        .dark { color-scheme: dark; }
+        .dark body { background-color: #0b1220; color: #e2e8f0; }
+        .dark ::-webkit-scrollbar-track { background: #0f172a; }
+        .dark ::-webkit-scrollbar-thumb { background: #334155; }
+        .dark ::-webkit-scrollbar-thumb:hover { background: #475569; }
+        .dark .hl-pink { background-color: rgba(236,72,153,.22); color: #f9a8d4; }
+        .dark .hl-blue { background-color: rgba(14,165,233,.22); color: #7dd3fc; }
+        .dark .hl-green { background-color: rgba(34,197,94,.22); color: #86efac; }
+        .dark .hl-purple { background-color: rgba(168,85,247,.22); color: #d8b4fe; }
+        .dark .hl-orange { background-color: rgba(249,115,22,.22); color: #fdba74; }
+        .dark a.text-blue-600, .dark .text-blue-600 { color: #93c5fd !important; }
+        .dark img:not(#lightbox-img) { filter: brightness(.92); }
+        .dark .shadow-sm, .dark .shadow-md, .dark .shadow-lg, .dark .shadow-xl { --tw-shadow-color: rgb(0 0 0 / .45); }
+        /* 淺色實心底的元件：維持深色文字，確保對比 */
+        html.dark body .bg-yellow-400, html.dark body .bg-yellow-400 * { color: #422006 !important; }
+        html.dark body .bg-\[\#a8e06a\], html.dark body .bg-\[\#a8e06a\] * { color: #1e293b !important; }
+        .dark .bg-\[\#c6d6ec\] { background-color: #2f425e !important; }
+        .dark .bg-\[\#8cabd9\]\/30 { background-color: #263650 !important; }
+        /* 主題切換按鈕 */
+        .theme-opt[aria-pressed="true"] { background:#ffffff; color:#0f172a; box-shadow:0 1px 2px rgb(0 0 0 / .15); }
+        .dark .theme-opt[aria-pressed="true"] { background:#334155 !important; color:#f8fafc !important; }
+        .dark .bg-amber-50{background-color:color-mix(in srgb, #f59e0b 12%, #1e293b) !important}
+        .dark .bg-blue-100{background-color:color-mix(in srgb, #3b82f6 20%, #1e293b) !important}
+        .dark .bg-blue-100\/60{background-color:color-mix(in srgb, #3b82f6 20%, #1e293b) !important}
+        .dark .bg-blue-50{background-color:color-mix(in srgb, #3b82f6 12%, #1e293b) !important}
+        .dark .bg-emerald-100\/60{background-color:color-mix(in srgb, #10b981 20%, #1e293b) !important}
+        .dark .bg-emerald-50{background-color:color-mix(in srgb, #10b981 12%, #1e293b) !important}
+        .dark .bg-fuchsia-100{background-color:color-mix(in srgb, #d946ef 20%, #1e293b) !important}
+        .dark .bg-green-100{background-color:color-mix(in srgb, #22c55e 20%, #1e293b) !important}
+        .dark .bg-green-50{background-color:color-mix(in srgb, #22c55e 12%, #1e293b) !important}
+        .dark .bg-indigo-100{background-color:color-mix(in srgb, #6366f1 20%, #1e293b) !important}
+        .dark .bg-indigo-50{background-color:color-mix(in srgb, #6366f1 12%, #1e293b) !important}
+        .dark .bg-orange-100{background-color:color-mix(in srgb, #f97316 20%, #1e293b) !important}
+        .dark .bg-orange-100\/70{background-color:color-mix(in srgb, #f97316 20%, #1e293b) !important}
+        .dark .bg-orange-50{background-color:color-mix(in srgb, #f97316 12%, #1e293b) !important}
+        .dark .bg-pink-100{background-color:color-mix(in srgb, #ec4899 20%, #1e293b) !important}
+        .dark .bg-pink-100\/70{background-color:color-mix(in srgb, #ec4899 20%, #1e293b) !important}
+        .dark .bg-pink-50{background-color:color-mix(in srgb, #ec4899 12%, #1e293b) !important}
+        .dark .bg-purple-100{background-color:color-mix(in srgb, #a855f7 20%, #1e293b) !important}
+        .dark .bg-rose-100{background-color:color-mix(in srgb, #f43f5e 20%, #1e293b) !important}
+        .dark .bg-rose-50{background-color:color-mix(in srgb, #f43f5e 12%, #1e293b) !important}
+        .dark .bg-slate-100{background-color:#233044 !important}
+        .dark .bg-slate-200{background-color:#2b3a50 !important}
+        .dark .bg-slate-300{background-color:#3a4a63 !important}
+        .dark .bg-slate-50{background-color:#172033 !important}
+        .dark .bg-yellow-50\/60{background-color:color-mix(in srgb, #eab308 12%, #1e293b) !important}
+        .dark .border-amber-200{border-color:color-mix(in srgb, #f59e0b 40%, #1e293b) !important}
+        .dark .border-blue-100{border-color:color-mix(in srgb, #3b82f6 30%, #1e293b) !important}
+        .dark .border-blue-200{border-color:color-mix(in srgb, #3b82f6 40%, #1e293b) !important}
+        .dark .border-emerald-200{border-color:color-mix(in srgb, #10b981 40%, #1e293b) !important}
+        .dark .border-emerald-300{border-color:color-mix(in srgb, #10b981 50%, #1e293b) !important}
+        .dark .border-green-100{border-color:color-mix(in srgb, #22c55e 30%, #1e293b) !important}
+        .dark .border-green-200{border-color:color-mix(in srgb, #22c55e 40%, #1e293b) !important}
+        .dark .border-green-300{border-color:color-mix(in srgb, #22c55e 50%, #1e293b) !important}
+        .dark .border-indigo-200{border-color:color-mix(in srgb, #6366f1 40%, #1e293b) !important}
+        .dark .border-orange-100{border-color:color-mix(in srgb, #f97316 30%, #1e293b) !important}
+        .dark .border-orange-200{border-color:color-mix(in srgb, #f97316 40%, #1e293b) !important}
+        .dark .border-pink-100{border-color:color-mix(in srgb, #ec4899 30%, #1e293b) !important}
+        .dark .border-pink-200{border-color:color-mix(in srgb, #ec4899 40%, #1e293b) !important}
+        .dark .border-purple-100{border-color:color-mix(in srgb, #a855f7 30%, #1e293b) !important}
+        .dark .border-rose-100{border-color:color-mix(in srgb, #f43f5e 30%, #1e293b) !important}
+        .dark .border-rose-200{border-color:color-mix(in srgb, #f43f5e 40%, #1e293b) !important}
+        .dark .border-slate-100{border-color:#2b3a50 !important}
+        .dark .border-slate-200{border-color:#334155 !important}
+        .dark .border-slate-300{border-color:#475569 !important}
+        .dark .border-yellow-200{border-color:color-mix(in srgb, #eab308 40%, #1e293b) !important}
+        .dark .border-yellow-300{border-color:color-mix(in srgb, #eab308 50%, #1e293b) !important}
+        .dark .from-amber-50{--tw-gradient-from:color-mix(in srgb, #f59e0b 14%, #1e293b) var(--tw-gradient-from-position) !important;--tw-gradient-to:transparent var(--tw-gradient-to-position);--tw-gradient-stops:var(--tw-gradient-from),var(--tw-gradient-to) !important}
+        .dark .from-rose-50{--tw-gradient-from:color-mix(in srgb, #f43f5e 14%, #1e293b) var(--tw-gradient-from-position) !important;--tw-gradient-to:transparent var(--tw-gradient-to-position);--tw-gradient-stops:var(--tw-gradient-from),var(--tw-gradient-to) !important}
+        .dark .hover\:bg-indigo-50:hover{background-color:color-mix(in srgb, #6366f1 12%, #1e293b) !important}
+        .dark .hover\:bg-slate-300:hover{background-color:#3a4a63 !important}
+        .dark .hover\:bg-slate-50:hover{background-color:#172033 !important}
+        .dark .hover\:border-blue-300:hover{border-color:color-mix(in srgb, #3b82f6 50%, #1e293b) !important}
+        .dark .hover\:border-green-300:hover{border-color:color-mix(in srgb, #22c55e 50%, #1e293b) !important}
+        .dark .hover\:border-slate-400:hover{border-color:#64748b !important}
+        .dark .hover\:text-indigo-800:hover{color:color-mix(in srgb, #6366f1 55%, #ffffff) !important}
+        .dark .hover\:text-slate-800:hover{color:#e2e8f0 !important}
+        .dark .hover\:text-slate-900:hover{color:#f1f5f9 !important}
+        .dark .text-amber-800{color:color-mix(in srgb, #f59e0b 55%, #ffffff) !important}
+        .dark .text-amber-900{color:color-mix(in srgb, #f59e0b 55%, #ffffff) !important}
+        .dark .text-blue-600{color:color-mix(in srgb, #3b82f6 70%, #ffffff) !important}
+        .dark .text-blue-700{color:color-mix(in srgb, #3b82f6 55%, #ffffff) !important}
+        .dark .text-blue-800{color:color-mix(in srgb, #3b82f6 55%, #ffffff) !important}
+        .dark .text-blue-900{color:color-mix(in srgb, #3b82f6 55%, #ffffff) !important}
+        .dark .text-emerald-600{color:color-mix(in srgb, #10b981 70%, #ffffff) !important}
+        .dark .text-emerald-700\/80{color:color-mix(in srgb, #10b981 55%, #ffffff) !important}
+        .dark .text-emerald-800{color:color-mix(in srgb, #10b981 55%, #ffffff) !important}
+        .dark .text-emerald-900{color:color-mix(in srgb, #10b981 55%, #ffffff) !important}
+        .dark .text-emerald-950{color:color-mix(in srgb, #10b981 55%, #ffffff) !important}
+        .dark .text-fuchsia-800{color:color-mix(in srgb, #d946ef 55%, #ffffff) !important}
+        .dark .text-green-600{color:color-mix(in srgb, #22c55e 70%, #ffffff) !important}
+        .dark .text-green-700{color:color-mix(in srgb, #22c55e 55%, #ffffff) !important}
+        .dark .text-green-800{color:color-mix(in srgb, #22c55e 55%, #ffffff) !important}
+        .dark .text-indigo-600{color:color-mix(in srgb, #6366f1 70%, #ffffff) !important}
+        .dark .text-indigo-700{color:color-mix(in srgb, #6366f1 55%, #ffffff) !important}
+        .dark .text-indigo-800{color:color-mix(in srgb, #6366f1 55%, #ffffff) !important}
+        .dark .text-orange-600{color:color-mix(in srgb, #f97316 70%, #ffffff) !important}
+        .dark .text-orange-700{color:color-mix(in srgb, #f97316 55%, #ffffff) !important}
+        .dark .text-orange-800{color:color-mix(in srgb, #f97316 55%, #ffffff) !important}
+        .dark .text-orange-900{color:color-mix(in srgb, #f97316 55%, #ffffff) !important}
+        .dark .text-pink-600{color:color-mix(in srgb, #ec4899 70%, #ffffff) !important}
+        .dark .text-pink-700{color:color-mix(in srgb, #ec4899 55%, #ffffff) !important}
+        .dark .text-pink-800{color:color-mix(in srgb, #ec4899 55%, #ffffff) !important}
+        .dark .text-pink-900{color:color-mix(in srgb, #ec4899 55%, #ffffff) !important}
+        .dark .text-purple-700{color:color-mix(in srgb, #a855f7 55%, #ffffff) !important}
+        .dark .text-purple-800{color:color-mix(in srgb, #a855f7 55%, #ffffff) !important}
+        .dark .text-rose-600{color:color-mix(in srgb, #f43f5e 70%, #ffffff) !important}
+        .dark .text-rose-700{color:color-mix(in srgb, #f43f5e 55%, #ffffff) !important}
+        .dark .text-rose-800{color:color-mix(in srgb, #f43f5e 55%, #ffffff) !important}
+        .dark .text-rose-900{color:color-mix(in srgb, #f43f5e 55%, #ffffff) !important}
+        .dark .text-slate-400{color:#7c8ba1 !important}
+        .dark .text-slate-500{color:#94a3b8 !important}
+        .dark .text-slate-600{color:#a8b4c6 !important}
+        .dark .text-slate-700{color:#cbd5e1 !important}
+        .dark .text-slate-800{color:#e2e8f0 !important}
+        .dark .text-slate-900{color:#f1f5f9 !important}
+        .dark .text-yellow-900{color:color-mix(in srgb, #eab308 55%, #ffffff) !important}
+        .dark .to-orange-50{--tw-gradient-to:color-mix(in srgb, #f97316 14%, #1e293b) var(--tw-gradient-to-position) !important}
+        .dark .to-pink-50{--tw-gradient-to:color-mix(in srgb, #ec4899 14%, #1e293b) var(--tw-gradient-to-position) !important}
+        .dark .bg-white{background-color:#1e293b !important}
+        .dark .bg-white\/25{background-color:rgb(30 41 59 / 25%) !important}
+        .dark .bg-white\/60{background-color:rgb(30 41 59 / 60%) !important}
+        .dark .bg-white\/70{background-color:rgb(30 41 59 / 70%) !important}
+        .dark .bg-white\/80{background-color:rgb(30 41 59 / 80%) !important}
+        .dark .bg-white\/90{background-color:rgb(30 41 59 / 90%) !important}
+        .dark .bg-white\/95{background-color:rgb(30 41 59 / 95%) !important}
+        .dark .hover\:bg-white:hover{background-color:#273449 !important}
+        .dark .bg-violet-50 { background-color: color-mix(in srgb, #8b5cf6 12%, #1e293b) !important; }
+        .dark .border-violet-200 { border-color: color-mix(in srgb, #8b5cf6 40%, #1e293b) !important; }
+        .dark .text-violet-900, .dark .text-violet-800 { color: color-mix(in srgb, #8b5cf6 45%, #ffffff) !important; }
+        .dark .text-violet-700 { color: color-mix(in srgb, #8b5cf6 55%, #ffffff) !important; }
     </style>
 </head>
 <body class="text-slate-800 antialiased min-h-screen flex flex-col">
@@ -144,8 +289,12 @@
                     </div>
                 </div>
 
-                <div class="hidden sm:flex items-center gap-2">
-                    <span class="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-semibold bg-indigo-100 text-indigo-800">
+                <div class="flex items-center gap-2">
+                    <div class="inline-flex items-center bg-slate-100 border border-slate-200 rounded-full p-1" role="group" aria-label="顯示模式">
+                        <button type="button" class="theme-opt inline-flex items-center gap-1 px-2 sm:px-2.5 py-1.5 sm:py-1 rounded-full text-xs font-bold text-slate-600 transition-colors" data-theme="light" aria-pressed="true" onclick="setTheme('light')" title="淡色模式"><svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"></path></svg><span class="hidden sm:inline whitespace-nowrap">淡色</span></button>
+                        <button type="button" class="theme-opt inline-flex items-center gap-1 px-2 sm:px-2.5 py-1.5 sm:py-1 rounded-full text-xs font-bold text-slate-600 transition-colors" data-theme="dark" aria-pressed="false" onclick="setTheme('dark')" title="深色模式"><svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path></svg><span class="hidden sm:inline whitespace-nowrap">深色</span></button>
+                    </div>
+                    <span class="hidden sm:inline-flex items-center px-2.5 py-1 rounded-full text-xs font-semibold bg-indigo-100 text-indigo-800">
                         <span class="w-2 h-2 mr-1.5 bg-indigo-500 rounded-full"></span>
                         2026 教學版
                     </span>
@@ -202,7 +351,7 @@
                     </button>
                     <button type="button" onclick="switchTab('tab-prompt')" class="text-left bg-white border border-slate-200 hover:border-slate-400 hover:shadow-md rounded-xl p-4 transition-all">
                         <span class="inline-flex w-8 h-8 rounded-lg bg-slate-700 text-white font-bold items-center justify-center mb-2">4</span>
-                        <p class="font-bold text-slate-800">推播程式碼</p><p class="text-xs text-slate-500 mt-1">步驟 05 要貼的 Code.gs 與 AI 咒語</p>
+                        <p class="font-bold text-slate-800">推播程式碼</p><p class="text-xs text-slate-500 mt-1">基本版／AI 撰稿版 Code.gs 與 AI 咒語</p>
                     </button>
                     <button type="button" onclick="switchTab('tab-web-line')" class="text-left bg-white border border-slate-200 hover:border-slate-400 hover:shadow-md rounded-xl p-4 transition-all">
                         <span class="inline-flex w-8 h-8 rounded-lg bg-pink-500 text-white font-bold items-center justify-center mb-2">5</span>
@@ -211,7 +360,7 @@
                     </div>
                     <div class="mt-5 grid grid-cols-1 sm:grid-cols-2 gap-3 text-sm">
                         <div class="bg-slate-50 border border-slate-200 rounded-xl p-4"><p class="font-bold text-slate-800 mb-1">開始前準備</p><ul class="space-y-1 text-slate-600"><li>• 一台電腦＋您的手機（已安裝 LINE）</li><li>• 一個<strong>個人</strong> Gmail 帳號（學校教育帳號常無法完成部署）</li><li>• 約 40–60 分鐘的完整時間</li></ul></div>
-                        <div class="bg-slate-50 border border-slate-200 rounded-xl p-4"><p class="font-bold text-slate-800 mb-1">完成後您會有</p><ul class="space-y-1 text-slate-600"><li>• 一個專屬的 LINE 官方帳號（機器人）</li><li>• 一份可依身分分流的公告試算表</li><li>• 一套可核准、可停用成員的權限名冊</li></ul></div>
+                        <div class="bg-slate-50 border border-slate-200 rounded-xl p-4"><p class="font-bold text-slate-800 mb-1">完成後您會有</p><ul class="space-y-1 text-slate-600"><li>• 一個專屬的 LINE 官方帳號（機器人）</li><li>• 一份可依身分分流的公告試算表</li><li>• 一套可核准、可停用成員的權限名冊</li><li>• （選用）AI 幫忙撰寫每日公告的試算表選單</li></ul></div>
                     </div>
                 </div>
                 <!-- 為什麼要連動 LINE -->
@@ -712,6 +861,7 @@
                                 <div class="text-sm text-slate-700 leading-relaxed space-y-2 pl-8">
                                     <p>左側預設開著 <code class="bg-white border border-slate-200 px-1 py-0.5 rounded text-pink-600">Code.gs</code>，先把裡面原本的 <code>function myFunction() { }</code> <strong>全部刪除</strong>。</p>
                                     <p>貼上「推播程式碼」單元（<a href="#tab-prompt" onclick="switchTab('tab-prompt');return false;" class="text-blue-600 hover:underline">點此前往</a>）的 <code class="bg-white border border-slate-200 px-1 py-0.5 rounded text-pink-600">Code.gs</code> 程式碼，按上方的 <strong>儲存（磁碟片圖示）</strong>。</p>
+                                    <p class="text-xs text-slate-500">有「版本 A 基本版」與「版本 B AI 撰稿版」兩種，第一次架設建議先貼基本版；之後想讓 AI 幫忙寫公告，再換成 AI 撰稿版即可。</p>
                                 </div>
                             </section>
                             <section class="rounded-xl border border-yellow-200 bg-yellow-50/60 p-4">
@@ -1055,7 +1205,7 @@
                     </div>
                     <div class="space-y-3 text-slate-700">
                         <ul class="space-y-3">
-                            <li class="flex gap-3"><span class="text-xl">📅</span><span><strong>每天更新公告：</strong>在「總匯報」或各身分工作表新增一列，<strong>A 欄填當天日期</strong>（例如 2026/11/05），B 欄之後填內容。標題列（第 1 列）可以改成您要的項目名稱，例如「午餐」「放學時間」。</span></li>
+                            <li class="flex gap-3"><span class="text-xl">📅</span><span><strong>每天更新公告：</strong>在「總匯報」或各身分工作表新增一列，<strong>A 欄填當天日期</strong>（例如 2026/11/05），B 欄之後填內容。標題列（第 1 列）可以改成您要的項目名稱，例如「午餐」「放學時間」。使用 <strong>AI 撰稿版</strong>的話，可改用試算表選單「🤖 AI 新增公告 ➜ ⚡ 一鍵生成今天全部分頁」自動填寫，檢查後再通知大家。</span></li>
                             <li class="flex gap-3"><span class="text-xl">✅</span><span><strong>核准新成員：</strong>有人申請時，「權限管理」會多一列「待核准」，確認是本人後改成「已核准」。畢業、離職或不認識的人改成「停用」。</span></li>
                             <li class="flex gap-3"><span class="text-xl">🔁</span><span><strong>修改程式後：</strong>到 Apps Script「部署 ➜ 管理部署作業 ➜ 編輯（鉛筆）➜ 版本選『新版本』➜ 部署」，LINE 才會用到新程式，網址不變，不用重貼 Webhook。</span></li>
                             <li class="flex gap-3"><span class="text-xl">🔑</span><span><strong>Token 外洩時：</strong>到 LINE Developers 的 Messaging API 分頁按 Reissue 重新發行，再把新 Token 更新到 Apps Script 的「指令碼屬性」LINE_TOKEN。</span></li>
@@ -1072,11 +1222,19 @@
         <section id="tab-prompt" class="tab-content">
             <div class="mb-8">
                 <h2 class="text-2xl font-bold text-slate-900 mb-2">推播程式碼｜Code.gs 示例、懶人包與 AI 咒語</h2>
-                <p class="text-slate-600">三種取得程式的方式，擇一即可：方法一：直接複製下方的 <strong>Code.gs 示例</strong>（最快）；方法二：用<strong>懶人包</strong>複製整份試算表；方法三：把 <strong>AI 咒語</strong>交給 AI，依需求改寫後重新產生。</p>
+                <p class="text-slate-600">三種取得程式的方式，擇一即可：方法一：直接複製下方的 <strong>Code.gs 示例</strong>（最快，有基本版與 AI 撰稿版）；方法二：用<strong>懶人包</strong>複製整份試算表；方法三：把 <strong>AI 咒語</strong>交給 AI，依需求改寫後重新產生。</p>
             </div>
 
+            <!-- 選擇版本 -->
+            <div class="mb-6 bg-white rounded-2xl p-6 shadow-sm border border-slate-200">
+                <h3 class="font-bold text-lg text-slate-800 mb-1">先選一個版本</h3>
+                <p class="text-sm text-slate-600 mb-4">兩個版本二選一，貼到「架設六步驟」步驟 05 的 Code.gs。<strong>LINE 端的操作完全一樣</strong>，差別只在公告內容由誰來寫。第一次架設建議先用基本版，熟悉後再換 AI 撰稿版。</p>
+                <div class="overflow-x-auto border border-slate-200 rounded-xl"><table class="w-full min-w-[34rem] text-sm text-slate-700">
+                    <thead class="bg-slate-50 text-slate-600"><tr><th class="px-3 py-2 text-left w-28"></th><th class="px-3 py-2 text-left">版本 A｜基本版</th><th class="px-3 py-2 text-left text-violet-700">版本 B｜AI 撰稿版</th></tr></thead>
+                    <tbody><tr class="border-t border-slate-100"><td class="px-3 py-2 font-bold text-slate-700 whitespace-nowrap">LINE 端功能</td><td class="px-3 py-2">身分註冊、管理員核准、傳「今日」查雙軌報表</td><td class="px-3 py-2">✓ 完全相同</td></tr><tr class="border-t border-slate-100"><td class="px-3 py-2 font-bold text-slate-700 whitespace-nowrap">公告內容怎麼來</td><td class="px-3 py-2">管理員自己在工作表打字</td><td class="px-3 py-2">可用試算表選單請 AI 撰寫，再由管理員檢查</td></tr><tr class="border-t border-slate-100"><td class="px-3 py-2 font-bold text-slate-700 whitespace-nowrap">額外需要</td><td class="px-3 py-2">無</td><td class="px-3 py-2">一把 Gemini API 金鑰（Google AI Studio，可免費申請）</td></tr><tr class="border-t border-slate-100"><td class="px-3 py-2 font-bold text-slate-700 whitespace-nowrap">適合</td><td class="px-3 py-2">剛入門、公告內容已有現成文字</td><td class="px-3 py-2">每天要寫多個對象的公告、想預排一整週</td></tr></tbody></table></div>
+            </div>
             <!-- Code.gs 示例（置頂） -->
-            <div data-block class="block-collapsed bg-slate-900 rounded-2xl shadow-xl overflow-hidden border border-slate-700 mb-10">
+            <div data-block class="block-collapsed bg-slate-900 rounded-2xl shadow-xl overflow-hidden border border-slate-700 mb-6">
                 <div class="bg-slate-800 px-4 py-3 border-b border-slate-700 flex flex-wrap justify-between items-center gap-3">
                     <div class="flex items-center gap-3 min-w-0">
                         <div class="flex space-x-1.5 flex-shrink-0">
@@ -1085,7 +1243,7 @@
                             <div class="w-3 h-3 rounded-full bg-green-500"></div>
                         </div>
                         <div class="min-w-0">
-                            <p class="text-white font-bold text-sm sm:text-base">推播系統程式碼示例 <span class="text-slate-400 font-mono font-normal">Code.gs</span></p>
+                            <p class="text-white font-bold text-sm sm:text-base">版本 A｜推播系統基本版 <span class="text-slate-400 font-mono font-normal">Code.gs</span></p>
                             <p class="text-xs text-slate-400">功能：身分註冊 ・ 管理員核准 ・ 傳「今日」查詢雙軌報表（全校總匯報＋身分專屬）</p>
                         </div>
                     </div>
@@ -1305,6 +1463,1235 @@ function replyToLine(replyToken, text) {
                 </div>
             </div>
 
+            <!-- 版本 B：AI 撰稿版 -->
+            <div data-block class="block-collapsed bg-slate-900 rounded-2xl shadow-xl overflow-hidden border border-violet-500/60 mb-6">
+                <div class="bg-slate-800 px-4 py-3 border-b border-slate-700 flex flex-wrap justify-between items-center gap-3">
+                    <div class="flex items-center gap-3 min-w-0">
+                        <div class="flex space-x-1.5 flex-shrink-0"><div class="w-3 h-3 rounded-full bg-rose-500"></div><div class="w-3 h-3 rounded-full bg-yellow-500"></div><div class="w-3 h-3 rounded-full bg-green-500"></div></div>
+                        <div class="min-w-0">
+                            <p class="text-white font-bold text-sm sm:text-base">版本 B｜推播系統 AI 撰稿版 <span class="text-slate-400 font-mono font-normal">Code.gs</span> <span class="ml-1 align-middle text-[11px] font-bold bg-violet-500 text-white rounded-full px-2 py-0.5">NEW</span></p>
+                            <p class="text-xs text-slate-400">功能：基本版全部功能 ＋ 試算表選單「🤖 AI 新增公告」：一鍵生成今日公告 ・ 多天預排 ・ 依對象調整語氣 ・ 可附參考資料</p>
+                        </div>
+                    </div>
+                    <div class="flex items-center gap-2 flex-shrink-0">
+                        <button onclick="copyText('gas-code-ai', 'AI 撰稿版程式碼')" class="bg-green-600 hover:bg-green-500 text-white text-sm font-medium py-1.5 px-4 rounded-lg flex items-center gap-2 transition-colors focus:ring-2 focus:ring-green-400 focus:outline-none">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 5H6a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2v-1M8 5a2 2 0 002 2h2a2 2 0 002-2M8 5a2 2 0 012-2h2a2 2 0 012 2m0 0h2a2 2 0 012 2v3m2 4H10m0 0l3-3m-3 3l3 3"></path></svg>
+                            一鍵複製程式碼
+                        </button>
+                        <button type="button" onclick="toggleBlock(this)" aria-expanded="false" class="block-toggle bg-slate-700 hover:bg-slate-600 text-slate-100 border border-slate-600 text-sm font-medium py-1.5 px-3 rounded-lg flex items-center gap-1 transition-colors"><span class="lbl">展開</span><svg class="w-4 h-4 block-chev" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg></button>
+                    </div>
+                </div>
+                <div class="block-hint px-4 py-3 text-sm text-slate-400">已收合（共 1167 行）。可直接按「一鍵複製程式碼」，或按「展開」查看內容。啟用方式見下方「AI 撰稿版怎麼用」。</div>
+                <div class="block-body p-4 overflow-x-auto">
+<pre><code id="gas-code-ai" class="text-slate-300 font-mono text-sm leading-relaxed">// ==========================================
+// 優履推播系統 - 完整大腦 (雙軌廣播 + 動態欄位 + 日期精準搜尋 + 🤖 AI 填寫匯報欄位版)
+// ==========================================
+
+const scriptProperties = PropertiesService.getScriptProperties();
+const LINE_TOKEN = scriptProperties.getProperty("LINE_TOKEN");
+const SHEET_ID = scriptProperties.getProperty("SHEET_ID");
+
+// ---------- AI 相關設定 ----------
+const SETTINGS_SHEET = "⚙️系統設定";
+const DATA_SHEETS = ["總匯報", "導師分頁", "學生分頁", "行政分頁", "家長分頁", "校長分頁"];
+// 分頁 → AI 撰寫時的對象
+const SHEET_AUDIENCE = {
+  "總匯報": "全校", "導師分頁": "導師", "學生分頁": "學生",
+  "行政分頁": "行政", "家長分頁": "家長", "校長分頁": "校長"
+};
+// [設定項目, 預設值, 說明]
+const DEFAULT_SETTINGS = [
+  ["Gemini模型", "gemini-flash-lite-latest", "建議用 gemini-flash-lite-latest 或 gemini-flash-latest（會自動指向最新版，不會過期）"],
+  ["備用模型", "gemini-flash-latest", "主模型額度用完或忙碌時自動改用；填「無」表示不使用備用模型"],
+  ["學校名稱", "", "會帶入內容，例如：優履國小"],
+  ["每格字數上限", 40, "每個欄位內容的字數上限（含標點）"],
+  ["啟用即時搜尋", "否", "是：以 Google 搜尋參考近期時事與政策（免費金鑰常沒有搜尋額度）；否：只用模型既有知識"],
+  ["搜尋額度不足時改用無搜尋", "是", "是：搜尋額度用完時自動改成不搜尋再試一次"]
+];
+const AUDIENCE_TONE = {
+  "全校": "正式而親切，全校師生家長都看得懂",
+  "導師": "清楚條列班級需執行與轉達的事項、期限",
+  "學生": "正向鼓勵、句子簡短、用學生聽得懂的話",
+  "行政": "精確、條理分明，標明承辦與配合單位",
+  "家長": "親切溫和、淺白易懂，避免行政術語",
+  "校長": "精簡扼要、重點摘要，利於決策與對外說明"
+};
+const GENERIC_HEADER_RE = /^匯報資料/; // 尚未改成主題的預設欄位名稱
+
+// 0. 開啟試算表時建立自訂選單（腳本需綁定在試算表上）
+function onOpen() {
+  SpreadsheetApp.getUi()
+    .createMenu("🤖 AI 新增公告")
+    // 第一次使用：依序做一次
+    .addItem("📋 建立／檢查分頁（首次使用、分頁或設定缺漏時）", "menuSetupSheets")
+    .addItem("🔑 設定 Gemini API 金鑰（首次使用、更換金鑰時）", "setGeminiApiKey")
+    .addItem("🩺 測試 Gemini 連線（設定完金鑰後、生成失敗時）", "diagnoseGemini")
+    .addSeparator()
+    // 日常使用
+    .addItem("⚡ 一鍵生成今天全部分頁（每天推播前）", "quickFillToday")
+    .addItem("✨ 自選分頁與日期生成（只更新部分分頁、預排未來日期時）", "openBatchDialog")
+    .addSeparator()
+    .addItem("❓ 使用說明（不確定怎麼操作時）", "showHelp")
+    .addToUi();
+}
+
+// 相容舊版選單：試算表還沒重新整理時，舊選單按下去也能正常運作
+function aiGenerateNotice() { openBatchDialog(); }
+function aiFillSelectedRows() { openBatchDialog(); }
+function openPublishDialog() { openBatchDialog(); }
+function showNoticeHelp() { showHelp(); }
+
+// 1. 自動建置試算表 (支援全角色與動態欄位 + 系統設定)
+function autoSetupSheets() {
+  let ss;
+  try {
+    ss = SHEET_ID ? SpreadsheetApp.openById(SHEET_ID) : SpreadsheetApp.getActiveSpreadsheet();
+  } catch (e) {
+    ss = null;
+  }
+  if (!ss) {
+    Logger.log("⚠️ 請先設定 SHEET_ID 與 LINE_TOKEN");
+    return;
+  }
+  try {
+    setupAll_(ss);
+    Logger.log("🎉 試算表全自動建置完成！");
+  } catch (e) {
+    Logger.log("❌ 發生錯誤：" + e.message);
+  }
+}
+
+function setupAll_(ss) {
+  const today = Utilities.formatDate(new Date(), "Asia/Taipei", "yyyy/MM/dd");
+
+  let authSheet = ss.getSheetByName("權限管理");
+  if (!authSheet) {
+    authSheet = ss.insertSheet("權限管理");
+    authSheet.appendRow(["LINE_ID", "姓名", "綁定身分", "註冊時間", "核准狀態"]);
+    authSheet.setFrozenRows(1);
+  }
+  // 核准狀態欄加上下拉選單，管理員點選即可核准
+  if (authSheet.getRange(1, 5).getValue() === "") authSheet.getRange(1, 5).setValue("核准狀態");
+  const statusRule = SpreadsheetApp.newDataValidation()
+    .requireValueInList(["待核准", "已核准", "停用"], true)
+    .setAllowInvalid(false)
+    .build();
+  authSheet.getRange(2, 5, authSheet.getMaxRows() - 1, 1).setDataValidation(statusRule);
+
+  DATA_SHEETS.forEach(sheetName =&gt; {
+    let sheet = ss.getSheetByName(sheetName);
+    if (!sheet) {
+      sheet = ss.insertSheet(sheetName);
+      sheet.appendRow(["日期", "匯報資料一", "匯報資料二", "匯報資料三"]);
+      sheet.appendRow([today, "這是【" + sheetName + "】的測試一", "這是測試二", "這是新增的測試三"]);
+    }
+  });
+
+  setupSettingsSheet_(ss);
+}
+
+// 建立 ⚙️系統設定（已存在則只補齊缺少的項目）
+function setupSettingsSheet_(ss) {
+  let settings = ss.getSheetByName(SETTINGS_SHEET);
+  if (!settings) {
+    settings = ss.insertSheet(SETTINGS_SHEET);
+    settings.appendRow(["設定項目", "設定值", "說明"]);
+    settings.setFrozenRows(1);
+  }
+  const lastRow = Math.max(settings.getLastRow(), 1);
+  const existingKeys = settings.getRange(1, 1, lastRow, 1).getValues().map(r =&gt; String(r[0]).trim());
+  DEFAULT_SETTINGS.forEach(row =&gt; {
+    if (existingKeys.indexOf(row[0]) === -1) settings.appendRow(row);
+  });
+  settings.setColumnWidth(1, 170);
+  settings.setColumnWidth(2, 220);
+  settings.setColumnWidth(3, 420);
+  migrateModelSettings_(ss);
+}
+
+// 選單：建立／檢查分頁
+function menuSetupSheets() {
+  setupAll_(SpreadsheetApp.getActiveSpreadsheet());
+  SpreadsheetApp.getUi().alert("🎉 分頁建立／檢查完成（含「" + SETTINGS_SHEET + "」）。");
+}
+
+// 選單：設定 Gemini API 金鑰（存在指令碼屬性，不寫進試算表）
+function setGeminiApiKey() {
+  const ui = SpreadsheetApp.getUi();
+  const res = ui.prompt(
+    "🔑 設定 Gemini API 金鑰",
+    "請貼上在 Google AI Studio 取得的 API 金鑰。\n金鑰會存在指令碼屬性，不會寫進試算表。",
+    ui.ButtonSet.OK_CANCEL
+  );
+  if (res.getSelectedButton() !== ui.Button.OK) return;
+  const key = res.getResponseText().trim();
+  if (!key) {
+    ui.alert("未輸入金鑰，已取消。");
+    return;
+  }
+  scriptProperties.setProperty("GEMINI_API_KEY", key);
+  ui.alert("✅ 已儲存 Gemini API 金鑰（尾碼 " + key.slice(-4) + "）。");
+}
+
+// 選單：使用說明
+function showHelp() {
+  const ui = SpreadsheetApp.getUi();
+  ui.alert(
+    "🤖 AI 新增公告｜使用說明",
+    "【第一次使用】依序點：\n" +
+    "① 📋 建立／檢查分頁 → ② 🔑 設定 Gemini API 金鑰 → ③ 🩺 測試 Gemini 連線（看到 ✅ 即可）\n\n" +
+    "【準備主題（建議）】把各分頁第 1 列的欄位名稱改成主題，例如：匯報資料一 → 流感疫苗。\n" +
+    "沒改的話，AI 會自行挑選近期議題。\n\n" +
+    "【日常使用】\n" +
+    "⚡ 一鍵生成今天全部分頁：每天推播前按一下，全部分頁今天那一列一次填好。\n" +
+    "✨ 自選分頁與日期生成：只想更新部分分頁，或預先排好明天、下週的內容時使用。\n\n" +
+    "每格內容在字數上限內（預設 40 字），融合政策重點、校務作法與親師提醒。\n" +
+    "LINE 使用者在那天輸入「今日」就會看到。\n" +
+    "滑鼠移到儲存格右上角的小三角形，可看到生成時間與模型。",
+    ui.ButtonSet.OK
+  );
+}
+
+// ==========================================
+// ⚡ 批次生成：一次填好多個分頁（不必切換分頁、不必選列）
+// ==========================================
+
+// 選單：⚡ 一鍵生成今天（全部分頁）
+function quickFillToday() {
+  const ui = SpreadsheetApp.getUi();
+  const ss = SpreadsheetApp.getActiveSpreadsheet();
+  if (!scriptProperties.getProperty("GEMINI_API_KEY")) {
+    ui.alert("尚未設定 Gemini API 金鑰，請先點選選單「🔑 設定 Gemini API 金鑰」。");
+    return;
+  }
+  const dateStr = Utilities.formatDate(new Date(), "Asia/Taipei", "yyyy/MM/dd");
+  const sheets = DATA_SHEETS.filter(n =&gt; ss.getSheetByName(n));
+  if (!sheets.length) {
+    ui.alert("找不到任何資料分頁，請先點「📋 建立／檢查分頁」。");
+    return;
+  }
+
+  const scan = scanTargets_(ss, dateStr, sheets);
+  let mode = "overwrite";
+  if (scan.filled &gt; 0) {
+    const ans = ui.alert(
+      "今天（" + dateStr + "）已有內容",
+      "有 " + scan.filled + " 格已有內容。\n\n按「是」：全部重新生成並覆寫\n按「否」：只填空白的格子\n按「取消」：不執行",
+      ui.ButtonSet.YES_NO_CANCEL
+    );
+    if (ans === ui.Button.CANCEL || ans === ui.Button.CLOSE) return;
+    mode = (ans === ui.Button.YES) ? "overwrite" : "blank";
+  }
+
+  ss.toast("正在為 " + sheets.length + " 個分頁生成內容，約需 10～60 秒…", "🤖 AI 新增公告", 90);
+  let msg;
+  try {
+    msg = runBatchFill_(ss, dateStr, sheets, mode);
+  } catch (e) {
+    msg = "❌ " + e.message;
+  }
+  ui.alert("🤖 AI 新增公告", msg, ui.ButtonSet.OK);
+}
+
+// 選單：✨ AI 生成內容（選分頁與日期）
+function openBatchDialog() {
+  const ui = SpreadsheetApp.getUi();
+  const ss = SpreadsheetApp.getActiveSpreadsheet();
+  if (!scriptProperties.getProperty("GEMINI_API_KEY")) {
+    ui.alert("尚未設定 Gemini API 金鑰，請先點選選單「🔑 設定 Gemini API 金鑰」。");
+    return;
+  }
+  let prefs = {};
+  try { prefs = JSON.parse(PropertiesService.getUserProperties().getProperty("BATCH_DIALOG_PREFS") || "{}"); } catch (_) {}
+  const data = {
+    sheets: DATA_SHEETS.filter(n =&gt; ss.getSheetByName(n)),
+    today: Utilities.formatDate(new Date(), "Asia/Taipei", "yyyy-MM-dd"),
+    limit: getCharLimit_(ss),
+    prefs: prefs
+  };
+  const t = HtmlService.createTemplate(BATCH_DIALOG_HTML);
+  t.dataJson = JSON.stringify(data).replace(/&lt;/g, "\\u003c");
+  ui.showModalDialog(t.evaluate().setWidth(560).setHeight(760), "✨ AI 生成內容");
+}
+
+// 由視窗呼叫（多天時，視窗會逐天呼叫一次）
+function batchFillFromDialog(p) {
+  const ss = SpreadsheetApp.getActiveSpreadsheet();
+  const m = String(p.date || "").match(/^(\d{4})-(\d{2})-(\d{2})$/);
+  if (!m) throw new Error("日期格式不正確。");
+  const sheets = (p.sheets || []).filter(n =&gt; DATA_SHEETS.indexOf(n) !== -1);
+  if (!sheets.length) throw new Error("請至少勾選一個分頁。");
+
+  // 記住這次的設定，下次開視窗自動帶入（參考資料太長不記）
+  if (p.dayIndex === 1 || !p.dayIndex) {
+    try {
+      PropertiesService.getUserProperties().setProperty("BATCH_DIALOG_PREFS", JSON.stringify({
+        direction: String(p.direction || "").substring(0, 300),
+        tone: p.tone || "",
+        limit: p.limit || "",
+        skipWeekend: !!p.skipWeekend,
+        mode: p.mode
+      }));
+    } catch (_) {}
+  }
+
+  return runBatchFill_(ss, m[1] + "/" + m[2] + "/" + m[3], sheets, p.mode === "blank" ? "blank" : "overwrite", {
+    direction: p.direction,
+    reference: p.reference,
+    tone: p.tone,
+    limit: parseInt(p.limit, 10),
+    dayIndex: p.dayIndex,
+    total: p.total,
+    avoidDates: p.avoidDates
+  });
+}
+
+// 讀取網址內容當參考資料（視窗中貼網址時使用）
+function fetchReferenceText(url) {
+  url = String(url || "").trim();
+  if (!/^https?:\/\/\S+$/.test(url)) throw new Error("網址格式不正確。");
+  let res;
+  try {
+    res = UrlFetchApp.fetch(url, { muteHttpExceptions: true, followRedirects: true });
+  } catch (e) {
+    throw new Error("無法開啟這個網址，請改為直接貼上文章內容。");
+  }
+  if (res.getResponseCode() !== 200) {
+    throw new Error("網站回應 " + res.getResponseCode() + "，無法讀取，請改為直接貼上文章內容。");
+  }
+  let text = res.getContentText()
+    .replace(/&lt;script[\s\S]*?&lt;\/script&gt;/gi, " ")
+    .replace(/&lt;style[\s\S]*?&lt;\/style&gt;/gi, " ")
+    .replace(/&lt;(nav|header|footer)[\s\S]*?&lt;\/\1&gt;/gi, " ")
+    .replace(/&lt;br\s*\/?&gt;|&lt;\/p&gt;|&lt;\/div&gt;|&lt;\/li&gt;|&lt;\/h\d&gt;/gi, "\n")
+    .replace(/&lt;[^&gt;]+&gt;/g, " ")
+    .replace(/&amp;nbsp;/g, " ").replace(/&amp;amp;/g, "&amp;").replace(/&amp;lt;/g, "&lt;").replace(/&amp;gt;/g, "&gt;")
+    .replace(/&amp;quot;/g, '"').replace(/&amp;#39;/g, "'")
+    .replace(/[ \t]+/g, " ").replace(/\s*\n\s*/g, "\n").trim();
+  if (text.length &lt; 100) throw new Error("這個網頁抓不到文章文字（可能需要登入或由程式載入），請改為直接貼上文章內容。");
+  if (text.length &gt; 8000) text = text.substring(0, 8000);
+  return { text: text, length: text.length };
+}
+
+// 統計目標格子中已有內容的數量（不新增列）
+function scanTargets_(ss, dateStr, sheetNames) {
+  let filled = 0;
+  sheetNames.forEach(name =&gt; {
+    const sh = ss.getSheetByName(name);
+    if (!sh) return;
+    const row = findDateRow_(sh, dateStr);
+    if (!row) return;
+    getTopics_(sh).forEach(t =&gt; {
+      if (String(sh.getRange(row, t.col).getDisplayValue()).trim() !== "") filled++;
+    });
+  });
+  return { filled: filled };
+}
+
+// 核心：一次呼叫 AI，填好所有勾選分頁的指定日期列
+function runBatchFill_(ss, dateStr, sheetNames, mode, opts) {
+  opts = opts || {};
+  const apiKey = scriptProperties.getProperty("GEMINI_API_KEY");
+  if (!apiKey) throw new Error("尚未設定 Gemini API 金鑰。");
+  migrateModelSettings_(ss);
+  const limit = (opts.limit &gt;= 10 &amp;&amp; opts.limit &lt;= 1000) ? Math.round(opts.limit) : getCharLimit_(ss);
+
+  // 整理每個分頁要填的格子
+  const jobs = [];
+  const skipped = [];
+  sheetNames.forEach(name =&gt; {
+    const sh = ss.getSheetByName(name);
+    if (!sh) { skipped.push(name + "（找不到分頁）"); return; }
+    const topics = getTopics_(sh);
+    if (!topics.length) { skipped.push(name + "（第 1 列沒有欄位名稱）"); return; }
+    const existingRow = findDateRow_(sh, dateStr);
+    let targets = topics;
+    if (mode === "blank" &amp;&amp; existingRow) {
+      targets = topics.filter(t =&gt; String(sh.getRange(existingRow, t.col).getDisplayValue()).trim() === "");
+    }
+    if (!targets.length) { skipped.push(name + "（都已有內容）"); return; }
+    jobs.push({ name: name, sheet: sh, audience: SHEET_AUDIENCE[name] || "全校", targets: targets });
+  });
+
+  if (!jobs.length) {
+    return "沒有需要填寫的格子。" + (skipped.length ? "\n略過：" + skipped.join("、") : "");
+  }
+
+  // 組合提示詞：每格以「=== S分頁-欄 ===」標記
+  const school = String(getSetting_(ss, "學校名稱", "")).trim();
+  const useSearch = String(getSetting_(ss, "啟用即時搜尋", "否")).trim() === "是";
+  const today = Utilities.formatDate(new Date(), "Asia/Taipei", "yyyy/MM/dd");
+
+  // ---- 本次的額外指示 ----
+  const direction = String(opts.direction || "").trim().substring(0, 300);
+  const reference = String(opts.reference || "").trim().substring(0, 8000);
+  const tone = String(opts.tone || "").trim();
+  const dObj = new Date(Number(dateStr.substr(0, 4)), Number(dateStr.substr(5, 2)) - 1, Number(dateStr.substr(8, 2)));
+  const weekday = "日一二三四五六".charAt(dObj.getDay());
+  const dayInfo = (opts.total &gt; 1) ? "這是連續 " + opts.total + " 天推播中的第 " + opts.dayIndex + " 天。" : "";
+  const genericHint = (direction || reference)
+    ? "（未指定主題，請依本次內容方向／參考資料自選一個角度，不可與同分頁其他格重複）"
+    : "（未指定主題，請自選一個與對象相關、近期重要的校務或教育議題，不可與同分頁其他格重複）";
+
+  // 多天生成時，把前幾天已寫的內容給 AI，避免重複
+  const avoidLines = [];
+  (opts.avoidDates || []).slice(-7).forEach(d =&gt; {
+    if (d === dateStr) return;
+    jobs.forEach(j =&gt; {
+      const row = findDateRow_(j.sheet, d);
+      if (!row) return;
+      const vals = j.sheet.getRange(row, 1, 1, j.sheet.getLastColumn()).getDisplayValues()[0];
+      j.targets.forEach(t =&gt; {
+        const v = String(vals[t.col - 1] || "").trim();
+        if (v &amp;&amp; avoidLines.length &lt; 40) avoidLines.push("・" + d + " " + j.name + "《" + t.topic + "》" + v);
+      });
+    });
+  });
+
+  const blocks = jobs.map((j, si) =&gt; {
+    const lines = j.targets.map((t, ti) =&gt;
+      "S" + (si + 1) + "-" + (ti + 1) + "：" + (t.generic
+        ? genericHint
+        : t.topic)
+    );
+    return "【S" + (si + 1) + "】對象：" + j.audience + "（語氣：" + (AUDIENCE_TONE[j.audience] || "正式而親切") + "）\n" + lines.join("\n");
+  }).join("\n\n");
+
+  const formatLines = [];
+  jobs.forEach((j, si) =&gt; j.targets.forEach((t, ti) =&gt; formatLines.push("=== S" + (si + 1) + "-" + (ti + 1) + " ===\n（內容）")));
+
+  const prompt = [
+    "你是台灣中小學「優履團隊」的行政公告撰稿人。",
+    "今天是 " + today + "，以下內容會在 " + dateStr + "（星期" + weekday + "）透過 LINE 推播。" + dayInfo +
+      (school ? "學校名稱：" + school + "。" : ""),
+    direction ? "\n【本次內容方向】" + direction + "\n每一格都要扣合這個方向，並配合各格的主題與對象。" : null,
+    reference ? "\n【參考資料】請以下列資料為主要依據撰寫；政策重點須與資料一致，資料沒提到的數字、日期不可自行補上。\n&lt;&lt;&lt;參考資料開始&gt;&gt;&gt;\n" +
+      reference + "\n&lt;&lt;&lt;參考資料結束&gt;&gt;&gt;" : null,
+    avoidLines.length ? "\n【前幾天已推播的內容】請換不同角度或重點，不要重複：\n" + avoidLines.join("\n") : null,
+    "",
+    "請依下列分頁、對象與主題，每一格各寫一則推播內容：",
+    blocks,
+    "",
+    "規則：",
+    "1. " + (reference ? "以參考資料為準；" : "") + (useSearch
+      ? "搜尋與各主題相關、近期的台灣教育政策與時事，內容要符合目前政策方向。"
+      : "依你所知的台灣教育政策方向撰寫，內容要符合目前政策方向。"),
+    "2. 每則不超過 " + limit + " 個字（含標點符號），這是硬性上限。",
+    "3. 每則用一到兩句話同時涵蓋三個面向：政策宣導（政策重點）、校務內容（學校要做的事）、親師溝通（給對象的提醒或請求配合）。",
+    "4. 不要加【】標籤、不要換行、不要用 Markdown 符號。",
+    "5. 繁體中文、台灣用語；不確定的日期、地點、電話一律不要寫，不可自行編造。",
+    tone ? "6. 整體語氣調整為「" + tone + "」，但仍須符合各分頁對象的身分。" : null,
+    "",
+    "輸出格式（只輸出以下內容，不要寫前言或結語）：",
+    formatLines.join("\n")
+  ].filter(x =&gt; x !== null).join("\n");
+
+  const r = callGemini_(ss, apiKey, prompt, useSearch);
+
+  // 解析回傳
+  const map = {};
+  const re = /^\s*===\s*S(\d+)\s*-\s*(\d+)\s*===\s*$/gm;
+  const marks = [];
+  let m;
+  while ((m = re.exec(r.text)) !== null) marks.push({ key: m[1] + "-" + m[2], start: m.index, bodyStart: re.lastIndex });
+  marks.forEach((mk, i) =&gt; {
+    const end = i + 1 &lt; marks.length ? marks[i + 1].start : r.text.length;
+    map[mk.key] = fitLength_(cleanText_(r.text.substring(mk.bodyStart, end)), limit);
+  });
+
+  // 寫回各分頁
+  const stamp = "🤖 AI 生成：" + Utilities.formatDate(new Date(), "Asia/Taipei", "yyyy/MM/dd HH:mm") +
+    "\n模型：" + r.model + (r.searched ? "（含搜尋時事）" : "");
+  const done = [];
+  const missing = [];
+  jobs.forEach((j, si) =&gt; {
+    const row = findOrCreateDateRow_(j.sheet, dateStr);
+    let n = 0;
+    j.targets.forEach((t, ti) =&gt; {
+      const text = map[(si + 1) + "-" + (ti + 1)];
+      if (!text) { missing.push(j.name + "《" + t.topic + "》"); return; }
+      j.sheet.getRange(row, t.col).setValue(text).setWrap(true).setVerticalAlignment("top").setNote(stamp);
+      n++;
+    });
+    if (n) done.push(j.name + " " + n + " 格");
+  });
+  SpreadsheetApp.flush();
+
+  let msg = "✅ " + dateStr + " 已填寫：" + (done.length ? done.join("、") : "無");
+  if (skipped.length) msg += "\n⏭️ 略過：" + skipped.join("、");
+  if (r.note) msg += "\nℹ️ " + r.note;
+  if (missing.length) msg += "\n❌ AI 沒有回傳：" + missing.join("、") + "（可選「只填空白」再執行一次補上）";
+  return msg;
+}
+
+// 讀取分頁第 1 列的欄位名稱當主題（第 1 欄是日期）
+function getTopics_(sh) {
+  const lastCol = sh.getLastColumn();
+  if (lastCol &lt; 2) return [];
+  const headers = sh.getRange(1, 1, 1, lastCol).getDisplayValues()[0];
+  const topics = [];
+  for (let c = 2; c &lt;= lastCol; c++) {
+    const h = String(headers[c - 1]).trim();
+    if (h) topics.push({ col: c, topic: h, generic: GENERIC_HEADER_RE.test(h) });
+  }
+  return topics;
+}
+
+function getCharLimit_(ss) {
+  const n = parseInt(getSetting_(ss, "每格字數上限", 40), 10);
+  return (n &gt;= 10 &amp;&amp; n &lt;= 1000) ? n : 40;
+}
+
+// 確保字數不超過上限：優先在句號處截斷，不得已才加「…」
+function fitLength_(text, limit) {
+  let t = String(text).replace(/\s*\n\s*/g, "").replace(/[ \t]{2,}/g, " ").trim();
+  const chars = Array.from(t);
+  if (chars.length &lt;= limit) return t;
+  const head = chars.slice(0, limit).join("");
+  const endIdx = Math.max(head.lastIndexOf("。"), head.lastIndexOf("！"), head.lastIndexOf("？"), head.lastIndexOf("；"));
+  if (endIdx &gt;= Math.floor(head.length * 0.5)) return head.substring(0, endIdx + 1);
+  const commaIdx = Math.max(head.lastIndexOf("，"), head.lastIndexOf("、"));
+  if (commaIdx &gt;= Math.floor(head.length * 0.6)) return head.substring(0, commaIdx) + "。";
+  return chars.slice(0, limit - 1).join("") + "…";
+}
+
+// 找到該日期的列（由下往上找，與「今日」查詢一致），找不到回傳 0
+function findDateRow_(sh, dateStr) {
+  const last = sh.getLastRow();
+  if (last &lt; 2) return 0;
+  const vals = sh.getRange(2, 1, last - 1, 1).getValues();
+  for (let i = vals.length - 1; i &gt;= 0; i--) {
+    if (normalizeDate_(vals[i][0]) === dateStr) return i + 2;
+  }
+  return 0;
+}
+
+// 找不到就在最下面新增一列
+function findOrCreateDateRow_(sh, dateStr) {
+  const found = findDateRow_(sh, dateStr);
+  if (found) return found;
+  const r = Math.max(sh.getLastRow(), 1) + 1;
+  sh.getRange(r, 1).setNumberFormat("@").setValue(dateStr);
+  return r;
+}
+
+// 選擇分頁與日期的視窗
+const BATCH_DIALOG_HTML = `&lt;!DOCTYPE html&gt;
+&lt;html&gt;&lt;head&gt;&lt;base target="_top"&gt;
+&lt;style&gt;
+  body { font-family: "Noto Sans TC", Arial, sans-serif; font-size: 14px; margin: 10px 12px; color: #222; }
+  fieldset { border: 1px solid #ddd; border-radius: 6px; margin: 8px 0; padding: 6px 10px 8px; }
+  legend { font-weight: bold; padding: 0 4px; }
+  label { display: inline-block; margin: 3px 12px 3px 0; cursor: pointer; }
+  .muted { color: #666; font-size: 12px; }
+  input[type=text], textarea, select { width: 100%; box-sizing: border-box; font-size: 13px; padding: 5px 6px;
+    border: 1px solid #ccc; border-radius: 4px; font-family: inherit; }
+  textarea { height: 90px; line-height: 1.5; resize: vertical; }
+  .row { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
+  .row input[type=date] { font-size: 13px; padding: 3px; }
+  .chips button { font-size: 12px; padding: 2px 8px; margin: 3px 4px 0 0; border-radius: 12px; border: 1px solid #c6dafc;
+    background: #e8f0fe; color: #1a56c4; cursor: pointer; }
+  details summary { cursor: pointer; font-weight: bold; margin: 8px 0 4px; }
+  .grid { display: grid; grid-template-columns: 90px 1fr; gap: 6px 8px; align-items: center; }
+  .grid input[type=number] { width: 80px; font-size: 13px; padding: 4px; }
+  .btns { text-align: right; margin-top: 10px; }
+  button.act { padding: 6px 16px; font-size: 14px; border-radius: 4px; border: 1px solid #888; background: #fff; cursor: pointer; }
+  button.primary { background: #1a73e8; color: #fff; border-color: #1a73e8; }
+  button:disabled { opacity: .6; cursor: default; }
+  #progress { font-size: 13px; color: #1a56c4; margin-top: 6px; }
+  #msg { font-size: 13px; margin-top: 4px; white-space: pre-line; max-height: 140px; overflow-y: auto; }
+  .err { color: #c5221f; } .ok { color: #188038; }
+&lt;/style&gt;&lt;/head&gt;
+&lt;body&gt;
+  &lt;fieldset&gt;&lt;legend&gt;1. 要填寫的分頁&lt;/legend&gt;
+    &lt;label&gt;&lt;input type="checkbox" id="all" checked&gt; &lt;b&gt;全選&lt;/b&gt;&lt;/label&gt;&lt;br&gt;
+    &lt;div id="sheets"&gt;&lt;/div&gt;
+  &lt;/fieldset&gt;
+
+  &lt;fieldset&gt;&lt;legend&gt;2. 日期（可選多天）&lt;/legend&gt;
+    &lt;div class="row"&gt;
+      &lt;input type="date" id="start"&gt; 到 &lt;input type="date" id="end"&gt;
+      &lt;label style="margin:0"&gt;&lt;input type="checkbox" id="skipWeekend"&gt; 跳過週六、日&lt;/label&gt;
+    &lt;/div&gt;
+    &lt;div class="chips"&gt;
+      &lt;button type="button" data-q="today"&gt;今天&lt;/button&gt;
+      &lt;button type="button" data-q="tomorrow"&gt;明天&lt;/button&gt;
+      &lt;button type="button" data-q="thisweek"&gt;本週一～五&lt;/button&gt;
+      &lt;button type="button" data-q="nextweek"&gt;下週一～五&lt;/button&gt;
+    &lt;/div&gt;
+    &lt;div class="muted" id="dayCount"&gt;&lt;/div&gt;
+  &lt;/fieldset&gt;
+
+  &lt;fieldset&gt;&lt;legend&gt;3. 內容方向（選填）&lt;/legend&gt;
+    &lt;input type="text" id="direction" maxlength="300" placeholder="例：配合期中考週，強調作息與身心調適"&gt;
+    &lt;div class="chips" id="dirChips"&gt;&lt;/div&gt;
+  &lt;/fieldset&gt;
+
+  &lt;fieldset&gt;&lt;legend&gt;4. 參考資料（選填）&lt;/legend&gt;
+    &lt;textarea id="reference" placeholder="貼上新聞、教育部或教育局公告、校內公文內容…&amp;#10;也可以只貼一個網址，程式會自動讀取網頁文字。"&gt;&lt;/textarea&gt;
+    &lt;div class="muted" id="refInfo"&gt;AI 會以這份資料為主要依據撰寫，最多讀取 8000 字。&lt;/div&gt;
+  &lt;/fieldset&gt;
+
+  &lt;fieldset&gt;&lt;legend&gt;5. 已有內容的格子&lt;/legend&gt;
+    &lt;label&gt;&lt;input type="radio" name="mode" value="blank" checked&gt; 只填空白的格子&lt;/label&gt;
+    &lt;label&gt;&lt;input type="radio" name="mode" value="overwrite"&gt; 全部重新生成（覆寫）&lt;/label&gt;
+  &lt;/fieldset&gt;
+
+  &lt;details id="adv"&gt;&lt;summary&gt;進階設定&lt;/summary&gt;
+    &lt;div class="grid"&gt;
+      &lt;span&gt;每格字數&lt;/span&gt;
+      &lt;span&gt;&lt;input type="number" id="limit" min="10" max="300"&gt; 字以內 &lt;span class="muted"&gt;（只影響這次）&lt;/span&gt;&lt;/span&gt;
+      &lt;span&gt;語氣&lt;/span&gt;
+      &lt;select id="tone"&gt;
+        &lt;option value=""&gt;依各分頁對象預設&lt;/option&gt;
+        &lt;option&gt;溫馨親切&lt;/option&gt;
+        &lt;option&gt;正式嚴謹&lt;/option&gt;
+        &lt;option&gt;活潑有朝氣&lt;/option&gt;
+        &lt;option&gt;簡潔明快&lt;/option&gt;
+        &lt;option&gt;鼓勵正向&lt;/option&gt;
+      &lt;/select&gt;
+    &lt;/div&gt;
+  &lt;/details&gt;
+
+  &lt;div id="progress"&gt;&lt;/div&gt;
+  &lt;div id="msg"&gt;&lt;/div&gt;
+  &lt;div class="btns"&gt;
+    &lt;button class="act" onclick="google.script.host.close()"&gt;關閉&lt;/button&gt;
+    &lt;button class="act primary" id="go" onclick="go()"&gt;✨ 開始生成&lt;/button&gt;
+  &lt;/div&gt;
+
+&lt;script&gt;
+  var DATA = &lt;?!= dataJson ?&gt;;
+  var P = DATA.prefs || {};
+  function $(id) { return document.getElementById(id); }
+  var allEl = $("all"), msgEl = $("msg"), progEl = $("progress");
+
+  // 分頁勾選
+  DATA.sheets.forEach(function (name) {
+    var lb = document.createElement("label");
+    var c = document.createElement("input");
+    c.type = "checkbox"; c.className = "sh"; c.value = name; c.checked = true;
+    c.onchange = syncAll;
+    lb.appendChild(c); lb.appendChild(document.createTextNode(" " + name));
+    $("sheets").appendChild(lb);
+  });
+  allEl.onchange = function () {
+    var cs = document.querySelectorAll(".sh");
+    for (var i = 0; i &lt; cs.length; i++) cs[i].checked = allEl.checked;
+  };
+  function syncAll() {
+    var cs = document.querySelectorAll(".sh"), every = true;
+    for (var i = 0; i &lt; cs.length; i++) if (!cs[i].checked) every = false;
+    allEl.checked = every;
+  }
+
+  // 日期
+  function pad(n) { return (n &lt; 10 ? "0" : "") + n; }
+  function fmt(d) { return d.getFullYear() + "-" + pad(d.getMonth() + 1) + "-" + pad(d.getDate()); }
+  function parse(s) { var p = s.split("-"); return new Date(+p[0], +p[1] - 1, +p[2]); }
+  var today = parse(DATA.today);
+  $("start").value = DATA.today; $("end").value = DATA.today;
+  $("skipWeekend").checked = !!P.skipWeekend;
+
+  function setRange(a, b) { $("start").value = fmt(a); $("end").value = fmt(b); updateCount(); }
+  function addDays(d, n) { var x = new Date(d); x.setDate(x.getDate() + n); return x; }
+  function monday(d) { var w = d.getDay() || 7; return addDays(d, 1 - w); }
+  var quick = {
+    today: function () { setRange(today, today); },
+    tomorrow: function () { var t = addDays(today, 1); setRange(t, t); },
+    thisweek: function () { var m = monday(today); setRange(m, addDays(m, 4)); },
+    nextweek: function () { var m = addDays(monday(today), 7); setRange(m, addDays(m, 4)); }
+  };
+  document.querySelectorAll("[data-q]").forEach(function (b) {
+    b.onclick = function () { quick[b.getAttribute("data-q")](); };
+  });
+
+  function buildDates() {
+    var s = $("start").value, e = $("end").value || s;
+    if (!s) return [];
+    var ds = parse(s), de = parse(e);
+    if (de &lt; ds) return null;
+    var out = [];
+    for (var d = new Date(ds); d &lt;= de &amp;&amp; out.length &lt;= 31; d.setDate(d.getDate() + 1)) {
+      var w = d.getDay();
+      if ($("skipWeekend").checked &amp;&amp; (w === 0 || w === 6)) continue;
+      out.push(fmt(d));
+    }
+    return out;
+  }
+  function updateCount() {
+    var ds = buildDates();
+    if (ds === null) { $("dayCount").textContent = "⚠️ 結束日期早於開始日期"; return; }
+    $("dayCount").textContent = ds.length &gt; 1
+      ? "共 " + ds.length + " 天，會逐天生成，內容會避免和前幾天重複。"
+      : (ds.length === 1 ? "共 1 天" : "");
+  }
+  ["start", "end", "skipWeekend"].forEach(function (id) { $(id).onchange = updateCount; });
+  updateCount();
+
+  // 內容方向快速範例
+  ["防疫與健康", "交通安全", "品德與反霸凌", "考試週身心調適", "節能減碳", "數位素養與網路安全"].forEach(function (t) {
+    var b = document.createElement("button");
+    b.type = "button"; b.textContent = t;
+    b.onclick = function () { $("direction").value = t; };
+    $("dirChips").appendChild(b);
+  });
+  $("direction").value = P.direction || "";
+
+  // 參考資料字數
+  $("reference").oninput = function () {
+    var v = $("reference").value.trim();
+    $("refInfo").textContent = /^https?:\\/\\/\\S+$/.test(v)
+      ? "偵測到網址，開始生成時會先讀取這個網頁的文字。"
+      : (v ? "已輸入 " + v.length + " 字" + (v.length &gt; 8000 ? "（超過 8000 字的部分不會讀取）" : "") : "AI 會以這份資料為主要依據撰寫，最多讀取 8000 字。");
+  };
+
+  // 進階
+  $("limit").value = P.limit || DATA.limit;
+  $("tone").value = P.tone || "";
+  if (P.tone || (P.limit &amp;&amp; +P.limit !== DATA.limit)) $("adv").open = true;
+  if (P.mode === "overwrite") document.querySelector('input[name="mode"][value="overwrite"]').checked = true;
+
+  function showMsg(t, cls) { msgEl.textContent = t; msgEl.className = cls; }
+  function call(fn, arg) {
+    return new Promise(function (resolve, reject) {
+      google.script.run.withSuccessHandler(resolve).withFailureHandler(reject)[fn](arg);
+    });
+  }
+
+  async function go() {
+    var cs = document.querySelectorAll(".sh"), sheets = [];
+    for (var i = 0; i &lt; cs.length; i++) if (cs[i].checked) sheets.push(cs[i].value);
+    var dates = buildDates();
+    if (!sheets.length) return showMsg("請至少勾選一個分頁。", "err");
+    if (dates === null) return showMsg("結束日期不能早於開始日期。", "err");
+    if (!dates.length) return showMsg("選擇的日期範圍內沒有要生成的日子（可能都是週末）。", "err");
+    if (dates.length &gt; 14) return showMsg("一次最多 14 天，請縮短日期範圍。", "err");
+    var limit = parseInt($("limit").value, 10);
+    if (!(limit &gt;= 10 &amp;&amp; limit &lt;= 300)) return showMsg("每格字數請填 10～300。", "err");
+
+    var btn = $("go");
+    btn.disabled = true;
+    showMsg("", "");
+    var reference = $("reference").value.trim();
+    try {
+      if (/^https?:\\/\\/\\S+$/.test(reference)) {
+        progEl.textContent = "讀取網址內容中…";
+        var r = await call("fetchReferenceText", reference);
+        reference = r.text;
+        $("refInfo").textContent = "✅ 已讀取網頁文字約 " + r.length + " 字";
+      }
+    } catch (e) {
+      progEl.textContent = "";
+      showMsg("❌ " + e.message, "err");
+      btn.disabled = false;
+      return;
+    }
+
+    var mode = document.querySelector('input[name="mode"]:checked').value;
+    var results = [], doneDates = [];
+    for (var k = 0; k &lt; dates.length; k++) {
+      progEl.textContent = "⏳ 生成中：第 " + (k + 1) + " / " + dates.length + " 天（" + dates[k].replace(/-/g, "/") + "）…";
+      btn.textContent = "生成中…";
+      try {
+        var res = await call("batchFillFromDialog", {
+          sheets: sheets, date: dates[k], mode: mode,
+          direction: $("direction").value.trim(), reference: reference,
+          tone: $("tone").value, limit: limit, skipWeekend: $("skipWeekend").checked,
+          dayIndex: k + 1, total: dates.length,
+          avoidDates: doneDates.map(function (d) { return d.replace(/-/g, "/"); })
+        });
+        results.push(res);
+        doneDates.push(dates[k]);
+      } catch (e) {
+        results.push("❌ " + dates[k].replace(/-/g, "/") + "：" + e.message);
+        if (/額度|quota|429/i.test(e.message)) { results.push("⏹ 額度不足，已停止後續日期。"); break; }
+      }
+      showMsg(results.join("\\n"), results.some(function (x) { return x.indexOf("❌") === 0; }) ? "err" : "ok");
+    }
+    progEl.textContent = "完成 " + doneDates.length + " / " + dates.length + " 天";
+    btn.disabled = false; btn.textContent = "✨ 再生成一次";
+  }
+&lt;/script&gt;
+&lt;/body&gt;&lt;/html&gt;`;
+
+// 清理 AI 回傳文字：去掉 Markdown 符號，並限制儲存格長度
+function cleanText_(text) {
+  let t = String(text).replace(/\r\n/g, "\n");
+  t = t.replace(/\*\*/g, "").replace(/^#+\s*/gm, "").replace(/\n{3,}/g, "\n\n").trim();
+  if (t.length &gt; 49000) t = t.substring(0, 49000) + "\n…（內容過長已截斷）";
+  return t;
+}
+
+// ==========================================
+// Gemini 呼叫（含重試、備用模型、停用模型保護）
+// ==========================================
+function callGemini_(ss, apiKey, prompt, useSearch) {
+  const model = String(getSetting_(ss, "Gemini模型", "gemini-flash-lite-latest")).trim();
+  let fallbackModel = String(getSetting_(ss, "備用模型", "gemini-flash-latest")).trim();
+  if (fallbackModel === "無") fallbackModel = "";
+  const dropSearchOnQuota = String(getSetting_(ss, "搜尋額度不足時改用無搜尋", "是")).trim() !== "否";
+
+  // 嘗試順序：主模型 → 備用模型 → 最新版保險模型；搜尋額度不足時再改不搜尋
+  const models = [model];
+  if (fallbackModel &amp;&amp; models.indexOf(fallbackModel) === -1) models.push(fallbackModel);
+  ["gemini-flash-latest", "gemini-flash-lite-latest"].forEach(m =&gt; {
+    if (models.indexOf(m) === -1) models.push(m);
+  });
+  const plans = models.map(m =&gt; ({ model: m, search: useSearch }));
+  if (useSearch &amp;&amp; dropSearchOnQuota) models.forEach(m =&gt; plans.push({ model: m, search: false }));
+
+  let json = null;
+  let used = null;
+  const failMsgs = [];
+  const retired = [];
+
+  for (let i = 0; i &lt; plans.length &amp;&amp; !json; i++) {
+    const plan = plans[i];
+    if (retired.indexOf(plan.model) !== -1) continue; // 已確認停用的模型不再試
+    const payload = {
+      contents: [{ role: "user", parts: [{ text: prompt }] }],
+      generationConfig: { temperature: 0.8 }
+    };
+    if (plan.search) payload.tools = [{ google_search: {} }];
+
+    const r = geminiRequestWithRetry_(apiKey, plan.model, payload);
+    if (r.ok) {
+      json = r.json;
+      used = plan;
+    } else if (r.quota || r.code === 404) {
+      if (r.code === 404) retired.push(plan.model);
+      failMsgs.push(plan.model + (plan.search ? "（搜尋）" : "（不搜尋）") + "：" + r.message);
+    } else {
+      throw new Error("Gemini API 錯誤（" + r.code + "）：" + r.message);
+    }
+  }
+
+  if (!json) {
+    throw new Error("所有模型都無法使用（額度用完或模型已停用），請按「🩺 測試 Gemini 連線」查看原因。\n" +
+      failMsgs.map(m =&gt; "　• " + m.substring(0, 120)).join("\n"));
+  }
+
+  let note = "";
+  if (used.model !== model) {
+    note += (retired.indexOf(model) !== -1 ? "設定的模型 " + model + " 已停用" : "主模型額度用完") +
+      "，改用 " + used.model;
+  }
+  if (useSearch &amp;&amp; !used.search) note += (note ? "；" : "") + "搜尋額度用完，本次未參考即時時事";
+
+  const cand = json.candidates &amp;&amp; json.candidates[0];
+  if (!cand || !cand.content || !cand.content.parts) {
+    const reason = (cand &amp;&amp; cand.finishReason) ||
+      (json.promptFeedback &amp;&amp; json.promptFeedback.blockReason) || "未知原因";
+    throw new Error("Gemini 沒有回傳內容（" + reason + "）");
+  }
+  const text = cand.content.parts.map(p =&gt; p.text || "").join("").trim();
+  if (!text) throw new Error("Gemini 回傳的內容是空的，請再試一次。");
+
+  const chunks = (cand.groundingMetadata &amp;&amp; cand.groundingMetadata.groundingChunks) || [];
+  const titles = [];
+  chunks.forEach(c =&gt; {
+    const t = c.web &amp;&amp; c.web.title;
+    if (t &amp;&amp; titles.indexOf(t) === -1) titles.push(t);
+  });
+
+  return { text: text, model: used.model, searched: used.search, note: note, sources: titles.slice(0, 5).join("、") };
+}
+
+// 送出一次請求；遇到「每分鐘額度」或伺服器忙碌會自動等待重試
+function geminiRequestWithRetry_(apiKey, model, payload) {
+  const url = "https://generativelanguage.googleapis.com/v1beta/models/" +
+    encodeURIComponent(model) + ":generateContent";
+  const MAX_TRIES = 3;
+  let last = null;
+
+  for (let attempt = 1; attempt &lt;= MAX_TRIES; attempt++) {
+    const res = UrlFetchApp.fetch(url, {
+      method: "post",
+      contentType: "application/json",
+      headers: { "x-goog-api-key": apiKey },
+      payload: JSON.stringify(payload),
+      muteHttpExceptions: true
+    });
+    const code = res.getResponseCode();
+    const body = res.getContentText();
+    if (code === 200) return { ok: true, json: JSON.parse(body) };
+
+    const info = parseGeminiError_(body);
+    last = { ok: false, quota: code === 429, code: code, message: info.message };
+
+    if (code === 429 &amp;&amp; (info.perDay || info.zeroLimit)) return last; // 每日額度／不開放：重試沒用
+    const retryable = code === 429 || code === 500 || code === 503;
+    if (!retryable || attempt === MAX_TRIES) return last;
+
+    let waitSec = info.retryDelaySec || (code === 429 ? 20 : 5) * attempt;
+    waitSec = Math.min(Math.max(waitSec, 2), 60);
+    try {
+      SpreadsheetApp.getActiveSpreadsheet().toast(
+        "額度暫時不足，" + Math.ceil(waitSec) + " 秒後自動重試（" + attempt + "/" + (MAX_TRIES - 1) + "）…",
+        "🤖 AI 新增公告", waitSec + 2
+      );
+    } catch (_) {}
+    Utilities.sleep(Math.ceil(waitSec) * 1000);
+  }
+  return last;
+}
+
+// 解析 Gemini 錯誤：建議等待秒數、是否為每日額度、上限是否為 0
+function parseGeminiError_(body) {
+  const info = { message: body, retryDelaySec: 0, perDay: false, zeroLimit: false };
+  try {
+    const err = JSON.parse(body).error || {};
+    info.message = err.message || body;
+    (err.details || []).forEach(d =&gt; {
+      const type = String(d["@type"] || "");
+      if (type.indexOf("RetryInfo") !== -1 &amp;&amp; d.retryDelay) {
+        info.retryDelaySec = parseFloat(String(d.retryDelay)) || 0;
+      }
+      if (type.indexOf("QuotaFailure") !== -1) {
+        (d.violations || []).forEach(v =&gt; {
+          if (/PerDay/i.test(String(v.quotaId || ""))) info.perDay = true;
+          if (String(v.quotaValue) === "0") info.zeroLimit = true;
+        });
+      }
+    });
+  } catch (_) {}
+  if (/limit:\s*0\b/.test(info.message)) info.zeroLimit = true;
+  return info;
+}
+
+// 選單：🩺 測試 Gemini 連線
+function diagnoseGemini() {
+  const ui = SpreadsheetApp.getUi();
+  const ss = SpreadsheetApp.getActiveSpreadsheet();
+  const key = scriptProperties.getProperty("GEMINI_API_KEY");
+  if (!key) {
+    ui.alert("尚未設定金鑰，請先點「🔑 設定 Gemini API 金鑰」。");
+    return;
+  }
+  const migrated = migrateModelSettings_(ss);
+  const lines = [];
+  lines.push("① 程式目前使用的金鑰：" + key.slice(0, 6) + "…" + key.slice(-4));
+  if (migrated.length) lines.push("🔧 已自動更新停用的模型設定：" + migrated.join("；"));
+
+  const listRes = UrlFetchApp.fetch("https://generativelanguage.googleapis.com/v1beta/models?pageSize=200", {
+    headers: { "x-goog-api-key": key }, muteHttpExceptions: true
+  });
+  if (listRes.getResponseCode() !== 200) {
+    lines.push("② 金鑰檢查：❌ " + listRes.getResponseCode() + " " +
+      parseGeminiError_(listRes.getContentText()).message.substring(0, 150));
+    ui.alert("🩺 Gemini 連線測試", lines.join("\n"), ui.ButtonSet.OK);
+    return;
+  }
+  const names = (JSON.parse(listRes.getContentText()).models || [])
+    .filter(m =&gt; (m.supportedGenerationMethods || []).indexOf("generateContent") !== -1)
+    .map(m =&gt; m.name.replace("models/", ""));
+  lines.push("② 金鑰有效 ✅");
+
+  const main = String(getSetting_(ss, "Gemini模型", "gemini-flash-lite-latest")).trim();
+  let fb = String(getSetting_(ss, "備用模型", "gemini-flash-latest")).trim();
+  if (fb === "無") fb = "";
+  const models = [main].concat(fb &amp;&amp; fb !== main ? [fb] : []);
+  lines.push("③ 實際生成測試：");
+
+  models.forEach(m =&gt; {
+    if (names.length &amp;&amp; names.indexOf(m) === -1) {
+      lines.push("　• " + m + "：❌ 這把金鑰找不到此模型名稱");
+      return;
+    }
+    [false, true].forEach(search =&gt; {
+      const payload = { contents: [{ role: "user", parts: [{ text: "請回覆：OK" }] }] };
+      if (search) payload.tools = [{ google_search: {} }];
+      const res = UrlFetchApp.fetch("https://generativelanguage.googleapis.com/v1beta/models/" +
+        encodeURIComponent(m) + ":generateContent", {
+        method: "post", contentType: "application/json",
+        headers: { "x-goog-api-key": key }, payload: JSON.stringify(payload), muteHttpExceptions: true
+      });
+      const code = res.getResponseCode();
+      const label = "　• " + m + (search ? "＋搜尋" : "（不搜尋）") + "：";
+      lines.push(label + (code === 200 ? "✅ 成功" : "❌ " + code + " " + describeQuota_(res.getContentText())));
+      Utilities.sleep(1500);
+    });
+  });
+
+  ui.alert("🩺 Gemini 連線測試", lines.join("\n"), ui.ButtonSet.OK);
+}
+
+// 把錯誤翻成看得懂的原因
+function describeQuota_(body) {
+  const quotaIds = [];
+  let limitZero = /limit:\s*0\b/.test(body);
+  let msg = body;
+  try {
+    const err = JSON.parse(body).error || {};
+    msg = err.message || body;
+    (err.details || []).forEach(d =&gt; (d.violations || []).forEach(v =&gt; {
+      if (v.quotaId) quotaIds.push(v.quotaId);
+      if (String(v.quotaValue) === "0") limitZero = true;
+    }));
+  } catch (_) {}
+  const ids = quotaIds.join(",");
+  if (limitZero) return "免費方案對此功能的上限是 0（不開放），需換模型或開啟付費";
+  if (/PerDay/i.test(ids)) return "今日額度已用完，明天重置";
+  if (/PerMinute/i.test(ids)) return "每分鐘額度用完，稍等一分鐘再試";
+  return msg.substring(0, 150);
+}
+
+// 自動把 ⚙️系統設定 裡已停用的舊模型名稱換成不會過期的名稱
+function migrateModelSettings_(ss) {
+  const sheet = ss.getSheetByName(SETTINGS_SHEET);
+  const changes = [];
+  if (!sheet || sheet.getLastRow() &lt; 2) return changes;
+  const rows = sheet.getRange(2, 1, sheet.getLastRow() - 1, 2).getValues();
+  const retiredRe = /^gemini-(1\.0|1\.5|2\.0|2\.5)-/i;
+  rows.forEach((r, i) =&gt; {
+    const key = String(r[0]).trim();
+    const val = String(r[1]).trim();
+    if ((key === "Gemini模型" || key === "備用模型") &amp;&amp; retiredRe.test(val)) {
+      const nv = (/lite/i.test(val) || key === "備用模型") ? "gemini-flash-lite-latest" : "gemini-flash-latest";
+      sheet.getRange(i + 2, 2).setValue(nv);
+      changes.push(key + "：" + val + " → " + nv);
+    }
+  });
+  return changes;
+}
+
+// 讀取 ⚙️系統設定 的值
+function getSetting_(ss, key, defaultValue) {
+  const sheet = ss.getSheetByName(SETTINGS_SHEET);
+  if (!sheet || sheet.getLastRow() &lt; 2) return defaultValue;
+  const rows = sheet.getRange(2, 1, sheet.getLastRow() - 1, 2).getValues();
+  for (let i = 0; i &lt; rows.length; i++) {
+    if (String(rows[i][0]).trim() === key) {
+      const v = rows[i][1];
+      return (v === "" || v === null) ? defaultValue : v;
+    }
+  }
+  return defaultValue;
+}
+
+// 日期統一成 yyyy/MM/dd（與 LINE「今日」查詢用同一套規則）
+function normalizeDate_(cell) {
+  if (cell instanceof Date) return Utilities.formatDate(cell, "Asia/Taipei", "yyyy/MM/dd");
+  return String(cell).trim().replace(/-/g, "/");
+}
+
+// ==========================================
+// LINE Webhook（原有功能）
+// ==========================================
+
+// 測試 Webhook 狀態 (當使用者在瀏覽器直接打開網址時顯示)
+function doGet(e) {
+  return ContentService.createTextOutput("Webhook is running. 一切正常運作中！");
+}
+
+// 2. 接收 LINE 訊息的主程式
+function doPost(e) {
+  try {
+    const event = JSON.parse(e.postData.contents).events[0];
+    const replyToken = event.replyToken;
+
+    if (event.type === "follow") {
+      replyToLine(replyToken, "👋 歡迎加入優履團隊推播系統！\n\n首次登入，請輸入您的「身分」與「名字」（例如：導師 王大明），經管理員核准後即可使用。");
+      return ContentService.createTextOutput("OK");
+    }
+
+    if (event.type !== "message" || event.message.type !== "text") return ContentService.createTextOutput("OK");
+
+    const userMessage = event.message.text.trim();
+    const userId = event.source.userId;
+    const todayDateStr = Utilities.formatDate(new Date(), "Asia/Taipei", "yyyy/MM/dd");
+
+    const roleMapping = {
+      "導師": "導師分頁",
+      "學生": "學生分頁",
+      "行政": "行政分頁",
+      "家長": "家長分頁",
+      "校長": "校長分頁"
+    };
+
+    const ss = SpreadsheetApp.openById(SHEET_ID);
+    const authSheet = ss.getSheetByName("權限管理");
+
+    let boundRole = null;
+    let boundName = null;
+    let boundStatus = "";
+    const authData = authSheet.getDataRange().getValues();
+
+    for (let i = 1; i &lt; authData.length; i++) {
+      if (authData[i][0] === userId) {
+        boundName = authData[i][1];
+        boundRole = authData[i][2];
+        boundStatus = String(authData[i][4] || "").trim();
+        break;
+      }
+    }
+
+    if (!boundRole) {
+      let inputRole = "";
+      let inputName = "";
+
+      for (let role in roleMapping) {
+        if (userMessage.startsWith(role)) {
+          inputRole = role;
+          inputName = userMessage.substring(role.length).trim();
+          break;
+        }
+      }
+
+      if (inputRole !== "" &amp;&amp; inputName !== "") {
+        const timestamp = Utilities.formatDate(new Date(), "Asia/Taipei", "yyyy/MM/dd HH:mm:ss");
+        authSheet.appendRow([userId, inputName, inputRole, timestamp, "待核准"]);
+        replyToLine(replyToken, "📝 申請已送出！\n【" + inputName + "】您好，您申請的身分為【" + inputRole + "】。\n\n管理員核准後，請輸入「今日」來獲取報表。");
+      } else {
+        replyToLine(replyToken, "⚠️ 系統無法辨識。\n首次登入，請輸入您的「身分」與「名字」（例如：家長 陳小華），讓後台為您綁定。");
+      }
+      return ContentService.createTextOutput("OK");
+    }
+
+    // 已註冊但尚未核准或已停用：不提供任何資料
+    if (boundStatus !== "已核准") {
+      const statusMsg = (boundStatus === "停用")
+        ? "⛔ 【" + boundName + "】您的帳號已停用，如有疑問請聯繫系統管理員。"
+        : "⏳ 【" + boundName + "】您的【" + boundRole + "】身分申請審核中，管理員核准後即可使用。";
+      replyToLine(replyToken, statusMsg);
+      return ContentService.createTextOutput("OK");
+    }
+
+    if (userMessage === "今日") {
+      function fetchDataByDate(sheetName, targetDate) {
+        const sheet = ss.getSheetByName(sheetName);
+        if (!sheet) return "⚠️ 找不到分頁：「" + sheetName + "」\n\n";
+
+        const lastCol = sheet.getLastColumn();
+        if (lastCol &lt; 2) return "▪️ 尚無匯報項目。\n\n";
+
+        const data = sheet.getDataRange().getDisplayValues();
+        const rawDates = sheet.getRange(1, 1, data.length, 1).getValues();
+        const headers = data[0];
+
+        // 日期統一轉成 yyyy/MM/dd 再比對，避免試算表顯示成 2026/1/5 而比對失敗
+        let foundRowData = null;
+        for (let i = data.length - 1; i &gt;= 1; i--) {
+          const cell = rawDates[i][0];
+          const cellDate = (cell instanceof Date)
+            ? Utilities.formatDate(cell, "Asia/Taipei", "yyyy/MM/dd")
+            : String(cell).trim().replace(/-/g, "/");
+          if (cellDate === targetDate) {
+            foundRowData = data[i];
+            break;
+          }
+        }
+
+        if (!foundRowData) {
+          return "▪️ 今日尚無資料。\n\n";
+        }
+
+        let result = "";
+        for (let i = 1; i &lt; lastCol; i++) {
+          if (foundRowData[i] &amp;&amp; foundRowData[i].trim() !== "") {
+            result += "📁 《" + headers[i] + "》\n▪️ " + foundRowData[i] + "\n\n";
+          }
+        }
+        return result;
+      }
+
+      const targetSheetName = roleMapping[boundRole];
+      const generalData = fetchDataByDate("總匯報", todayDateStr);
+      const specificData = fetchDataByDate(targetSheetName, todayDateStr);
+
+      const replyText =
+        "🗓️【優履團隊每日訊息】\n" +
+        todayDateStr + "\n\n" +
+        "【📢 全校總匯報】\n" +
+        generalData +
+        "【👤 " + boundRole + "專屬通知】\n" +
+        specificData;
+
+      replyToLine(replyToken, replyText.trim());
+
+    } else if (Object.keys(roleMapping).some(role =&gt; userMessage.startsWith(role))) {
+      replyToLine(replyToken, "🛑 越權警告：【" + boundName + "】您的權限已鎖定為【" + boundRole + "】。\n如需變更，請聯繫系統管理員。");
+    } else {
+      replyToLine(replyToken, "💡 【" + boundName + "】您目前的身分為【" + boundRole + "】。\n請直接輸入「今日」來查看最新報表。");
+    }
+
+    return ContentService.createTextOutput("OK");
+
+  } catch (error) {
+    console.error("Webhook 處理錯誤: " + error.message);
+    return ContentService.createTextOutput("Error");
+  }
+}
+
+function replyToLine(replyToken, text) {
+  const url = "https://api.line.me/v2/bot/message/reply";
+  // LINE 單則文字上限 5000 字、一次回覆最多 5 則：過長時自動分段
+  const LIMIT = 4900;
+  const messages = [];
+  let rest = String(text);
+  while (rest.length &gt; 0 &amp;&amp; messages.length &lt; 5) {
+    let cut = rest.length;
+    if (cut &gt; LIMIT) {
+      cut = rest.lastIndexOf("\n\n", LIMIT);
+      if (cut &lt; LIMIT / 2) cut = LIMIT;
+    }
+    messages.push({ "type": "text", "text": rest.substring(0, cut).trim() });
+    rest = rest.substring(cut).trim();
+  }
+  if (rest.length &gt; 0) {
+    messages[4].text = messages[4].text.substring(0, LIMIT - 30) + "\n…（內容過長，請洽管理員）";
+  }
+  const payload = { "replyToken": replyToken, "messages": messages };
+  const options = {
+    "method": "post",
+    "headers": { "Content-Type": "application/json", "Authorization": "Bearer " + LINE_TOKEN },
+    "payload": JSON.stringify(payload)
+  };
+  UrlFetchApp.fetch(url, options);
+}</code></pre>
+                </div>
+            </div>
+
+            <!-- AI 撰稿版使用說明 -->
+            <div class="mb-10 bg-violet-50 border border-violet-200 rounded-2xl p-6 shadow-sm space-y-5">
+                <div>
+                    <h3 class="font-bold text-lg text-violet-900">AI 撰稿版怎麼用</h3>
+                    <p class="text-sm text-violet-800 mt-1">把「每天寫公告」交給 AI：程式讀取各工作表第 1 列的主題，依對象（全校、導師、學生、行政、家長、校長）用合適的語氣寫成短公告，直接填進當天那一列。大家在 LINE 傳「今日」時，看到的就是這些內容。</p>
+                </div>
+                <div>
+                    <p class="font-bold text-slate-800 mb-2">首次啟用（約 10 分鐘）</p>
+                    <ol class="space-y-3 text-slate-700 text-sm">
+                        <li class="flex gap-3"><span class="flex-shrink-0 w-6 h-6 rounded-full bg-violet-600 text-white text-xs font-bold flex items-center justify-center mt-0.5">1</span><span><strong>取得 Gemini API 金鑰：</strong>用個人 Gmail 打開 <a href="https://aistudio.google.com/apikey" target="_blank" class="text-blue-600 hover:underline">Google AI Studio</a>，點「Create API key（建立 API 金鑰）」，複製那串金鑰備用。金鑰等同密碼，不要分享。</span></li>
+                        <li class="flex gap-3"><span class="flex-shrink-0 w-6 h-6 rounded-full bg-violet-600 text-white text-xs font-bold flex items-center justify-center mt-0.5">2</span><span><strong>換上 AI 撰稿版程式：</strong>在 Apps Script 的 <span class="inline-flex items-center bg-white border border-slate-300 rounded px-1.5 py-0.5 font-bold text-slate-700 text-sm">Code.gs</span>，刪除全部內容，貼上下方 AI 撰稿版並儲存。（已架好基本版的人也是這樣直接覆蓋，原本的 LINE 功能、權限名冊都會保留。）</span></li>
+                        <li class="flex gap-3"><span class="flex-shrink-0 w-6 h-6 rounded-full bg-violet-600 text-white text-xs font-bold flex items-center justify-center mt-0.5">3</span><span><strong>重新授權並部署新版本：</strong>選 <span class="inline-flex items-center bg-white border border-slate-300 rounded px-1.5 py-0.5 font-bold text-slate-700 text-sm">autoSetupSheets</span> 按「▷ 執行」，會再跳一次授權（AI 版多了連線外部服務的權限），照步驟 05 ④ 的 a–e 允許。接著「部署 ➜ 管理部署作業 ➜ 編輯（鉛筆）➜ 版本選『新版本』➜ 部署」，網址不變。</span></li>
+                        <li class="flex gap-3"><span class="flex-shrink-0 w-6 h-6 rounded-full bg-violet-600 text-white text-xs font-bold flex items-center justify-center mt-0.5">4</span><span><strong>在試算表完成首次設定：</strong>回到試算表按 F5 重新整理，上方選單列會多出 <span class="inline-flex items-center bg-white border border-slate-300 rounded px-1.5 py-0.5 font-bold text-slate-700 text-sm">🤖 AI 新增公告</span>。依序點：<br>「📋 建立／檢查分頁」 ➜ 「🔑 設定 Gemini API 金鑰」（貼上 ① 的金鑰） ➜ 「🩺 測試 Gemini 連線」，看到 ✅ 就完成了。</span></li>
+                        <li class="flex gap-3"><span class="flex-shrink-0 w-6 h-6 rounded-full bg-violet-600 text-white text-xs font-bold flex items-center justify-center mt-0.5">5</span><span><strong>（建議）把欄位名稱改成主題：</strong>各工作表第 1 列的「匯報資料一、二、三」改成主題，例如「流感疫苗」「交通安全」「段考提醒」，AI 就會照主題寫。沒改的話，AI 會自己挑近期校務議題。</span></li>
+                    </ol>
+                </div>
+                <div>
+                    <p class="font-bold text-slate-800 mb-2">日常使用：試算表上方「🤖 AI 新增公告」選單</p>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-3 text-sm">
+                        <div class="bg-white border border-violet-200 rounded-xl p-4">
+                            <p class="font-bold text-violet-800 mb-1">⚡ 一鍵生成今天全部分頁</p>
+                            <p class="text-slate-600">每天推播前按一下，所有工作表「今天」那一列一次填好。今天已有內容時，會問您要「全部覆寫」或「只填空白」。</p>
+                        </div>
+                        <div class="bg-white border border-violet-200 rounded-xl p-4">
+                            <p class="font-bold text-violet-800 mb-1">✨ 自選分頁與日期生成</p>
+                            <p class="text-slate-600">可勾選部分工作表、選多天（最多 14 天，可跳過週末）預排內容，也能指定內容方向（例如「段考週身心調適」）、貼上公文或新聞全文／網址當參考資料，以及調整語氣與字數。</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="flex gap-2 text-sm text-amber-900 bg-amber-50 border border-amber-200 rounded-xl px-4 py-3">
+                    <span>⚠️</span>
+                    <div class="space-y-1">
+                        <p><strong>AI 寫的是草稿，送出前請人工檢查。</strong>AI 可能寫錯日期、活動或政策細節；程式已要求不可自行編造日期與電話，但仍請管理員過目後再通知大家查詢。</p>
+                        <p>滑鼠移到儲存格右上角的小三角形，可看到生成時間與使用的模型。</p>
+                        <p>參考資料會送到 Google Gemini 處理，<strong>請勿貼上學生姓名、聯絡方式等個資</strong>。免費金鑰有每日額度，用完隔天會重置；「🩺 測試 Gemini 連線」可查看原因。</p>
+                    </div>
+                </div>
+            </div>
+
             <!-- 快速部署捷徑區塊 -->
             <div class="mb-10 bg-gradient-to-r from-amber-50 to-orange-50 border border-orange-200 rounded-2xl p-6 shadow-sm relative overflow-hidden">
                 <div class="absolute top-0 right-0 bg-orange-500 text-white text-xs font-bold px-3 py-1 rounded-bl-lg">🚀 極速捷徑</div>
@@ -1318,15 +2705,20 @@ function replyToLine(replyToken, text) {
                     如果您不想自己複製貼上程式碼與建置工作表，可以點擊下方按鈕，直接將我們準備好的系統試算表 <strong class="text-orange-700">「建立副本」</strong> 到您的 Google 雲端硬碟中：
                 </p>
                 
-                <div class="mb-6">
-                    <a href="https://docs.google.com/spreadsheets/d/15Z2jVdtHJ-xmwKBffbl7ohLZOa9W2FvsD5UHiqLzih4/edit?usp=sharing" target="_blank" class="inline-flex items-center gap-2 bg-orange-500 hover:bg-orange-600 text-white font-bold py-3 px-6 rounded-xl shadow-md hover:shadow-lg transition-all transform hover:-translate-y-0.5">
+                <div class="mb-6 flex flex-wrap gap-3">
+                    <a href="https://docs.google.com/spreadsheets/d/15Z2jVdtHJ-xmwKBffbl7ohLZOa9W2FvsD5UHiqLzih4/edit?usp=sharing" target="_blank" rel="noopener" class="inline-flex items-center gap-2 bg-orange-500 hover:bg-orange-600 text-white font-bold py-3 px-6 rounded-xl shadow-md hover:shadow-lg transition-all transform hover:-translate-y-0.5">
                         <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7v8a2 2 0 002 2h6M8 7V5a2 2 0 012-2h4.586a1 1 0 01.707.293l4.414 4.414a1 1 0 01.293.707V15a2 2 0 01-2 2h-2M8 7H6a2 2 0 00-2 2v10a2 2 0 002 2h8a2 2 0 002-2v-2"></path></svg>
-                        快速複製專案請點我
+                        <span class="flex flex-col leading-tight text-left"><span>版本 A｜基本版</span><span class="text-xs font-medium opacity-90">快速複製專案請點我</span></span>
+                    </a>
+                    <a href="https://docs.google.com/spreadsheets/d/1zxEwnQY4f2htTIAxu8ffUO1WjEMqIWdFTbRDxcNAmDM/copy" target="_blank" rel="noopener" class="inline-flex items-center gap-2 bg-violet-600 hover:bg-violet-500 text-white font-bold py-3 px-6 rounded-xl shadow-md hover:shadow-lg transition-all transform hover:-translate-y-0.5">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7v8a2 2 0 002 2h6M8 7V5a2 2 0 012-2h4.586a1 1 0 01.707.293l4.414 4.414a1 1 0 01.293.707V15a2 2 0 01-2 2h-2M8 7H6a2 2 0 00-2 2v10a2 2 0 002 2h8a2 2 0 002-2v-2"></path></svg>
+                        <span class="flex flex-col leading-tight text-left"><span>版本 B｜AI 撰稿版</span><span class="text-xs font-medium opacity-90">快速複製專案請點我</span></span>
                     </a>
                 </div>
+                <p class="-mt-3 mb-5 text-xs text-slate-500">AI 撰稿版建立副本後，除了下方 5 個啟用步驟，還要依上方「AI 撰稿版怎麼用」設定 Gemini API 金鑰。</p>
 
                 <p class="mb-5 text-sm text-orange-900 bg-orange-100/70 border border-orange-200 rounded-lg px-4 py-2.5">
-                    📌 範本試算表內的程式可能是舊版。建立副本後，建議用本頁下方最新的 <code>Code.gs</code> 覆蓋 Apps Script 內容（已含日期比對修正與管理員核准機制），再執行一次 <code>autoSetupSheets</code>。
+                    📌 範本試算表內的程式可能是舊版。建立副本後，建議用本頁上方同版本最新的 <code>Code.gs</code> 覆蓋 Apps Script 內容（已含日期比對修正與管理員核准機制），再執行一次 <code>autoSetupSheets</code>。
                 </p>
 
                 <div class="bg-white/60 rounded-xl p-5 border border-orange-100">
@@ -2256,6 +3648,21 @@ function logErrorToSheet(errorMsg) {
             const hash = location.hash.replace('#', '');
             if (hash && document.getElementById(hash) && hash.startsWith('tab-')) switchTab(hash);
         });
+
+        // ===== 深色／淡色切換 =====
+        function setTheme(t, save) {
+            document.documentElement.classList.toggle('dark', t === 'dark');
+            document.querySelectorAll('.theme-opt').forEach(b => b.setAttribute('aria-pressed', String(b.dataset.theme === t)));
+            if (save !== false) { try { localStorage.setItem('theme', t); } catch (e) {} }
+        }
+        setTheme(document.documentElement.classList.contains('dark') ? 'dark' : 'light', false);
+        // 使用者沒手動選過時，跟著系統設定變化
+        try {
+            window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', e => {
+                let saved = null; try { saved = localStorage.getItem('theme'); } catch (_) {}
+                if (!saved) setTheme(e.matches ? 'dark' : 'light', false);
+            });
+        } catch (e) {}
 
         // ===== 程式碼／咒語區塊：收合切換 =====
         function toggleBlock(btn) {
